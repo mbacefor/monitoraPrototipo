@@ -19,6 +19,24 @@ export default {
       },
     },
     {
+      name: 'monitoracao',
+      displayName: 'menu.monitoracao',
+      meta: {
+        icon: 'vuestic-iconset-statistics',
+      },
+      disabled: true,
+      children: [
+        {
+          name: 'agua',
+          displayName: 'menu.agua',
+        },
+        {
+          name: 'gas',
+          displayName: 'menu.gas',
+        },
+      ],
+    },
+    {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {

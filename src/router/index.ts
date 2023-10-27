@@ -12,20 +12,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/:catchAll(.*)',
     redirect: { name: 'dashboard' },
   },
-
-  {
-    name: 'monitora',
-    path: '/monitora',
-    component: AppLayout,
-    children: [
-      {
-        name: 'dashboard',
-        path: 'dashboard',
-        component: () => import('../pages/monitora/dashboard/Dashboard.vue'),
-      },
-      UIRoute,
-    ],
-  },
   {
     name: 'admin',
     path: '/admin',
@@ -35,6 +21,29 @@ const routes: Array<RouteRecordRaw> = [
         name: 'dashboard',
         path: 'dashboard',
         component: () => import('../pages/admin/dashboard/Dashboard.vue'),
+      },
+      {
+        name: 'monitoracao',
+        path: 'monitoracao',
+        component: RouteViewComponent,
+        children: [
+          {
+            name: 'agua',
+            path: 'agua',
+            component: () => import('../pages/admin/monitoracao/agua/listagem/ListagemAgua.vue'),
+            meta: {
+              wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Charts',
+            },
+          },
+          {
+            name: 'gas',
+            path: 'gas',
+            component: () => import('../pages/admin/monitoracao/gas/ProgressBars.vue'),
+            meta: {
+              wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Progress-Bars',
+            },
+          },
+        ],
       },
       {
         name: 'statistics',

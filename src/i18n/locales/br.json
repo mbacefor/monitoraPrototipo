@@ -140,6 +140,9 @@
     "simplified_chinese": "Chinês simplificado"
   },
   "menu": {
+    "monitoracao":"Monitoração",
+    "agua" : "Água",
+    "gas" : "Gás",
     "auth": "Autorização",
     "buttons": "Botões",
     "charts": "Gráficos",
