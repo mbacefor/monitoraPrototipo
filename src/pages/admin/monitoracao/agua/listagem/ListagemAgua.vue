@@ -7,7 +7,7 @@
           <va-chip shadow color="primary">{{ t('button.novoGelagua') }}</va-chip>
         </va-card-content>
       </va-card>
-      <template v-for="(gelagua, i) in gelaguas" :key="'item' + gelagua.id">
+      <template v-for="(gelagua) in gelaguas" :key="'item' + gelagua.id">
         <va-card class="col-span-12 sm:col-span-6 md:col-span-3" stripe stripe-color="info">
           <va-card-title>
             <va-avatar>
