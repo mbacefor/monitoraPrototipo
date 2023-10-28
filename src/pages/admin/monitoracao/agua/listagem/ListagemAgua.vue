@@ -1,12 +1,15 @@
 <template>
   <div class="cards">
+    <va-card class="larger-padding col-span-12">
+      <va-card-title>{{ t('cards.title.withStripe') }}</va-card-title>
+      <va-card-content>
+        <va-chip shadow color="primary">{{ t('button.novoGelagua') }}</va-chip>
+      </va-card-content>
+    </va-card>
+
+    <va-separator />
+
     <div class="cards-container grid grid-cols-12 items-start gap-6 wrap">
-      <va-card class="col-span-12 sm:col-span-6 md:col-span-3" stripe stripe-color="danger">
-        <va-card-title>{{ t('cards.title.withStripe') }}</va-card-title>
-        <va-card-content>
-          <va-chip shadow color="primary">{{ t('button.novoGelagua') }}</va-chip>
-        </va-card-content>
-      </va-card>
       <template v-for="(gelagua) in gelaguas" :key="'item' + gelagua.id">
         <va-card class="col-span-12 sm:col-span-6 md:col-span-3" stripe stripe-color="info">
           <va-card-title>
