@@ -1,0 +1,98 @@
+[
+  {
+    "_id": {
+      "$oid": "6506fc4545ddf81865da9deb"
+    },
+    "imagem": "https://picsum.photos/200/300?random=3",
+    "nome": "Botijão Casa",
+    "descricao": "Botijão da Minha Casa",
+    "identificadorBalanca": "MI SCALE2",
+    "ativo": true,
+    "pesoMaximo": {
+      "$numberDecimal": "42.8"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "21.3"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6506fc4545ddf81865da9deb"
+    },
+    "imagem": "https://picsum.photos/200/300?random=1",
+    "nome": "Botijão UNI7",
+    "descricao": "Botijão da Uni7",
+    "identificadorBalanca": "MI SCALE4",
+    "ativo": true,
+    "pesoMaximo": {
+      "$numberDecimal": "42.8"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "21.3"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6506fc4545ddf81865da9deb"
+    },
+    "imagem": "https://picsum.photos/200/300?random=2",
+    "nome": "Botijão UNI7-SI",
+    "descricao": "Botijão da Uni7-SI",
+    "identificadorBalanca": "MI SCALE5",
+    "ativo": true,
+    "pesoMaximo": {
+      "$numberDecimal": "42.8"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "21.3"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6506fc4545ddf81865da9deb"
+    },
+    "nome": "Botijão Fazenda",
+    "imagem": "https://picsum.photos/300/200/?image=1044",
+    "descricao": "Botijão da Minha Fazenda",
+    "identificadorBalanca": "MI SCALE3",
+    "ativo": true,
+    "pesoMaximo": {
+      "$numberDecimal": "42.8"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "21.3"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6506fc4545ddf81865da9deb"
+    },
+    "nome": "Botijão Fazenda 2",
+    "imagem": "https://picsum.photos/300/200/?image=1044",
+    "descricao": "Botijão da Minha Fazenda 2",
+    "identificadorBalanca": "MI SCALE5",
+    "ativo": true,
+    "pesoMaximo": {
+      "$numberDecimal": "42.8"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "21.3"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6506fc4545ddf81865da9deb"
+    },
+    "nome": "Botijão Fazenda 3",
+    "imagem": "https://picsum.photos/300/200/?image=1044",
+    "descricao": "Botijão da Minha Fazenda 3",
+    "identificadorBalanca": "MI SCALE5",
+    "ativo": true,
+    "pesoMaximo": {
+      "$numberDecimal": "42.8"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "21.3"
+    }
+  }
+]
