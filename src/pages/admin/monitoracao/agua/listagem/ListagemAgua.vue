@@ -3,7 +3,7 @@
     <va-card class="larger-padding col-span-12">
       <va-card-title>{{ t('cards.title.withStripe') }}</va-card-title>
       <va-card-content>
-        <va-chip shadow color="primary">{{ t('button.novoGelagua') }}</va-chip>
+        <va-chip shadow color="primary" to="../gas"  >{{ t('button.novoGelagua') }}</va-chip>
       </va-card-content>
     </va-card>
 
@@ -24,8 +24,6 @@
           <va-card-content>{{ gelagua.descricao }}</va-card-content>
         </va-card>
       </template>
-
-
     </div>
   </div>
 </template>
@@ -34,12 +32,12 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useToast } from 'vuestic-ui'
-import data from './data.json'
+import data from '../data.json'
 
 const { t } = useI18n()
 const { init: initToast } = useToast()
 
-const gelaguas = ref(data.slice(0, 5))
+const gelaguas = ref(data.slice(0, 6))
 const appBanners = ref(false)
 const banners = ref(false)
 const notifications = ref(true)

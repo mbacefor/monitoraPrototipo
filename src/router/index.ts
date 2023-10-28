@@ -29,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
         children: [
           {
             name: 'agua',
-            path: 'agua',
+            path: 'agua/listagem',
             component: () => import('../pages/admin/monitoracao/agua/listagem/ListagemAgua.vue'),
             meta: {
               wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Charts',
