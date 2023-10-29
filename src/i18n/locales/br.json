@@ -263,7 +263,8 @@
     "botijao":{
       "botaoNovo":"Inserir Novo Botijão",
       "botaoSalvar":"Salvar Botijão",
-      "editarTitulo": "Cadastro de Botijão"
+      "editarTitulo": "Cadastro de Botijão",
+      "visualizarTitulo": "Vazia de Botijão"
     }
   }
 }

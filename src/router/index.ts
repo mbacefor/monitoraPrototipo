@@ -51,6 +51,14 @@ const routes: Array<RouteRecordRaw> = [
               wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Progress-Bars',
             },
           },
+          {
+            name: 'gasVisualizar',
+            path: 'gas/visualizar',
+            component: () => import('../pages/admin/monitoracao/gas/VisualizarGas.vue'),
+            meta: {
+              wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Progress-Bars',
+            },
+          },
         ],
       },
       {

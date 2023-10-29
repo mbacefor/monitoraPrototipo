@@ -14,8 +14,19 @@
         </va-popover>
       </va-card-content>
     </va-card>
-    <va-card class="col-span-12">
-      <va-card-title>{{ t('monitora.botijao.editarTitulo') }}</va-card-title>
+    <va-card class="col-span-2">
+      <va-card-title>{{ t('monitora.botijao.visualizarTitulo') }}</va-card-title>
+      <va-card-content>
+        <div class="grid grid-cols-1 gap-6">
+          <img
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMGkQ5lZzFKD1S1uEfFZDKfLnvnKM0GPGwtuOefcMTY4Ox7kzgk3ySTFmbkAWJJia0YYl3hVS4sb6ibJ5tKVxRFsL9r-7NMdf7qkfwNyb8RRwI8dQK2I_kQQW7Gr0s6PLQtSL2k0lvIrnEmusFWpXwjOuQ2WXhFDGpimz0f1RQi3MJK65V-6786apGrA/s16000/Botij%C3%A3o%20de%20g%C3%A1s%20-%20Desenho%20para%20imprimir%20e%20colorir.png"
+            alt="botijao.nome"
+          />
+        </div>
+      </va-card-content>
+    </va-card>
+    <va-card class="col-span-10">
+      <va-card-title>{{ t('monitora.botijao.visualizarTitulo') }}</va-card-title>
       <va-card-content>
         <form>
           <div class="grid grid-cols-12 gap-6">
@@ -60,6 +71,12 @@
         </form>
       </va-card-content>
     </va-card>
+    <va-card v-if="lineChartDataGenerated" class="chart-widget col-span-12">
+      <va-card-title>{{ t('charts.lineChart') }}</va-card-title>
+      <va-card-content>
+        <va-chart :data="lineChartDataGenerated" type="line" />
+      </va-card-content>
+    </va-card>
   </div>
 </template>
 
@@ -79,10 +96,28 @@
     pesoMaximo: 42.8,
     pesoMinimo: 12.6,
   })
+  import { useChartData } from '../../../../data/charts/composables/useChartData'
+  import {
+    lineChartData,
+    doughnutChartData,
+    bubbleChartData,
+    pieChartData,
+    barChartData,
+    horizontalBarChartData,
+  } from '../../../../data/charts'
+  import VaChart from '../../../../components/va-charts/VaChart.vue'
+
+  const lineChartDataGenerated = useChartData(lineChartData, 0.7)
+
 </script>
 
 <style lang="scss" scoped>
   fieldset {
     margin-bottom: 0.5rem;
+  }
+  .chart-widget {
+    .va-card__content {
+      height: 300px;
+    }
   }
 </style>

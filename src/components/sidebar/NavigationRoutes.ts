@@ -36,7 +36,7 @@ export default {
         },
       ],
     },
-    {
+   /* {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {
@@ -236,6 +236,6 @@ export default {
           displayName: 'menu.faq',
         },
       ],
-    },
+    },*/
   ] as INavigationRoute[],
 }

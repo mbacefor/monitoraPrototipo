@@ -27,7 +27,7 @@
             <va-spacer />
             {{ botijao.nome }}
             <va-spacer />
-            <va-button size="small" icon="propane_tank" title="Visualizar o botijão" to="editar" />
+            <va-button size="small" icon="propane_tank" title="Visualizar o botijão" to="visualizar" />
           </va-card-title>
           <va-card-content>{{ botijao.descricao }}</va-card-content>
         </va-card>
