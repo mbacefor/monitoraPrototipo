@@ -1,19 +1,6 @@
 import { TLineChartData } from '../types'
 
-const months = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-]
+const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
 
 const getSize = (minSize = 5) => Math.max(minSize, new Date().getMonth())
 const size = getSize()
@@ -35,7 +22,7 @@ export const lineChartData: TLineChartData = {
       backgroundColor: 'primary',
       data: generateArray(size),
     },
-{
+    {
       label: yLabels[1],
       backgroundColor: 'secondary',
       data: generateArray(size),

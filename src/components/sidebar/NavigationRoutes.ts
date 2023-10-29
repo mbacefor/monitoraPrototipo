@@ -36,7 +36,7 @@ export default {
         },
       ],
     },
-   /* {
+    /* {
       name: 'statistics',
       displayName: 'menu.statistics',
       meta: {

@@ -79,6 +79,20 @@
     pesoMaximo: 42.8,
     pesoMinimo: 12.6,
   })
+  const simpleOptions = ref([
+    {
+      id: 1,
+      description: 'First option',
+    },
+    {
+      id: 2,
+      description: 'Second option',
+    },
+    {
+      id: 3,
+      description: 'Third option',
+    },
+  ])
 </script>
 
 <style lang="scss" scoped>

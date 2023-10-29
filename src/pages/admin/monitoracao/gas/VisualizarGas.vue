@@ -18,10 +18,7 @@
       <va-card-title>{{ t('monitora.botijao.visualizarTitulo') }}</va-card-title>
       <va-card-content>
         <div class="grid grid-cols-1 gap-6">
-          <img
-            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgMGkQ5lZzFKD1S1uEfFZDKfLnvnKM0GPGwtuOefcMTY4Ox7kzgk3ySTFmbkAWJJia0YYl3hVS4sb6ibJ5tKVxRFsL9r-7NMdf7qkfwNyb8RRwI8dQK2I_kQQW7Gr0s6PLQtSL2k0lvIrnEmusFWpXwjOuQ2WXhFDGpimz0f1RQi3MJK65V-6786apGrA/s16000/Botij%C3%A3o%20de%20g%C3%A1s%20-%20Desenho%20para%20imprimir%20e%20colorir.png"
-            alt="botijao.nome"
-          />
+          <img src="/public/botijaoTransparente.png" alt="botijao.nome" />
         </div>
       </va-card-content>
     </va-card>
@@ -83,6 +80,17 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { useChartData } from '../../../../data/charts/composables/useChartData'
+  import {
+    lineChartData,
+    doughnutChartData,
+    bubbleChartData,
+    pieChartData,
+    barChartData,
+    horizontalBarChartData,
+  } from '../../../../data/charts'
+  import VaChart from '../../../../components/va-charts/VaChart.vue'
+
   const { t } = useI18n()
   const dtoBotijao = ref({
     _id: {
@@ -96,19 +104,23 @@
     pesoMaximo: 42.8,
     pesoMinimo: 12.6,
   })
-  import { useChartData } from '../../../../data/charts/composables/useChartData'
-  import {
-    lineChartData,
-    doughnutChartData,
-    bubbleChartData,
-    pieChartData,
-    barChartData,
-    horizontalBarChartData,
-  } from '../../../../data/charts'
-  import VaChart from '../../../../components/va-charts/VaChart.vue'
 
   const lineChartDataGenerated = useChartData(lineChartData, 0.7)
 
+  const simpleOptions = ref([
+    {
+      id: 1,
+      description: 'First option',
+    },
+    {
+      id: 2,
+      description: 'Second option',
+    },
+    {
+      id: 3,
+      description: 'Third option',
+    },
+  ])
 </script>
 
 <style lang="scss" scoped>

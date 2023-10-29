@@ -140,9 +140,9 @@
     "simplified_chinese": "Chinês simplificado"
   },
   "menu": {
-    "monitoracao":"Monitoração",
-    "agua" : "Água",
-    "gas" : "Gás",
+    "monitoracao": "Monitoração",
+    "agua": "Água",
+    "gas": "Gás",
     "auth": "Autorização",
     "buttons": "Botões",
     "charts": "Gráficos",
@@ -258,11 +258,11 @@
   "chat": {
     "title": "Gráficos"
   },
-  "monitora":{
-    "operacoes" : "Funcionalidades",
-    "botijao":{
-      "botaoNovo":"Inserir Novo Botijão",
-      "botaoSalvar":"Salvar Botijão",
+  "monitora": {
+    "operacoes": "Funcionalidades",
+    "botijao": {
+      "botaoNovo": "Inserir Novo Botijão",
+      "botaoSalvar": "Salvar Botijão",
       "editarTitulo": "Cadastro de Botijão",
       "visualizarTitulo": "Vazia de Botijão"
     }
