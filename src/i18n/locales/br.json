@@ -261,7 +261,9 @@
   "monitora":{
     "operacoes" : "Funcionalidades",
     "botijao":{
-      "botaoNovo":"Inserir Novo Botijão"
+      "botaoNovo":"Inserir Novo Botijão",
+      "botaoSalvar":"Salvar Botijão",
+      "editarTitulo": "Cadastro de Botijão"
     }
   }
 }

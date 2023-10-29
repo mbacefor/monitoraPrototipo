@@ -31,7 +31,7 @@ export default {
           displayName: 'menu.agua',
         },
         {
-          name: 'gas',
+          name: 'gasListar',
           displayName: 'menu.gas',
         },
       ],

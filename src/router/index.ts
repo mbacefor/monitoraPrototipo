@@ -36,9 +36,17 @@ const routes: Array<RouteRecordRaw> = [
             },
           },
           {
-            name: 'gas',
+            name: 'gasListar',
             path: 'gas/listar',
             component: () => import('../pages/admin/monitoracao/gas/ListagemGas.vue'),
+            meta: {
+              wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Progress-Bars',
+            },
+          },
+          {
+            name: 'gasEditar',
+            path: 'gas/editar',
+            component: () => import('../pages/admin/monitoracao/gas/EditarGas.vue'),
             meta: {
               wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Progress-Bars',
             },
