@@ -30,10 +30,20 @@ const routes: Array<RouteRecordRaw> = [
           {
             name: 'agua',
             path: 'agua/listagem',
-            component: () => import('../pages/admin/monitoracao/agua/listagem/ListagemAgua.vue'),
+            component: () => import('../pages/admin/monitoracao/agua/ListagemAgua.vue'),
             meta: {
               wikiLink: 'https://github.com/epicmaxco/vuestic-admin/wiki/Charts',
             },
+          },
+          {
+            name: 'aguaEditar',
+            path: 'agua/editar',
+            component: () => import('../pages/admin/monitoracao/agua/EditaGelagua.vue'),
+          },
+          {
+            name: 'aguaVisualizar',
+            path: 'agua/visualizar',
+            component: () => import('../pages/admin/monitoracao/agua/VisualizarGelagua.vue'),
           },
           {
             name: 'gasListar',

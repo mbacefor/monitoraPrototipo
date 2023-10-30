@@ -1,9 +1,17 @@
 <template>
   <div class="cards">
     <va-card class="larger-padding col-span-12">
-      <va-card-title>{{ t('cards.title.withStripe') }}</va-card-title>
+      <va-card-title>{{ t('monitora.operacoes') }}</va-card-title>
       <va-card-content>
-        <va-chip shadow color="primary" to="../gas">{{ t('button.novoGelagua') }}</va-chip>
+        <va-popover
+          icon="propane_tank"
+          color="warning"
+          message="Clique e cadastre um novo Garrafão!"
+          placement="right"
+          open
+        >
+          <va-chip shadow color="primary" to="editar">{{ t('monitora.garrafao.botaoNovo') }}</va-chip>
+        </va-popover>
       </va-card-content>
     </va-card>
 
@@ -19,7 +27,7 @@
             <va-spacer />
             {{ gelagua.nome }}
             <va-spacer />
-            <va-button size="small" icon="gear" />
+            <va-button size="small" icon="gear" to="visualizar" />
           </va-card-title>
           <va-card-content>{{ gelagua.descricao }}</va-card-content>
         </va-card>
@@ -32,7 +40,7 @@
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { useToast } from 'vuestic-ui'
-  import data from '../data.json'
+  import data from '../../../../data/monitora/gelaguas.json'
 
   const { t } = useI18n()
   const { init: initToast } = useToast()
