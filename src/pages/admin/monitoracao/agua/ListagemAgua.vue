@@ -41,7 +41,6 @@
   import { useI18n } from 'vue-i18n'
   import { useToast } from 'vuestic-ui'
   import data from '../../../../data/monitora/gelaguas.json'
-
   const { t } = useI18n()
   const { init: initToast } = useToast()
 
