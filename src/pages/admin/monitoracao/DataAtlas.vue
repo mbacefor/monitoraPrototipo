@@ -41,7 +41,4 @@
     })
     gelaguas2.value = data.documents
   }
-
-  const { t } = useI18n()
-  const { init: initToast } = useToast()
 </script>

@@ -12,13 +12,17 @@
         >
           <va-chip shadow color="primary" to="editar">{{ t('monitora.garrafao.botaoNovo') }}</va-chip>
         </va-popover>
+        <div>
+          <p>Contagem: {{ gelaguas2.length }}</p>
+          <button @click="increment">Incrementar</button>
+        </div>
       </va-card-content>
     </va-card>
 
     <va-separator />
 
     <div class="cards-container grid grid-cols-12 items-start gap-6 wrap">
-      <template v-for="gelagua in gelaguas" :key="'item' + gelagua.id">
+      <template v-for="gelagua in gelaguas2" :key="'item' + gelagua.id">
         <va-card class="col-span-12 sm:col-span-6 md:col-span-3" stripe stripe-color="info">
           <va-card-title>
             <va-avatar>
@@ -37,12 +41,18 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { useToast } from 'vuestic-ui'
   import data from '../../../../data/monitora/gelaguas.json'
   const { t } = useI18n()
   const { init: initToast } = useToast()
+  import { listaGelaguas } from '../../../../stores/data-atlas'
+
+  const store = listaGelaguas()
+  const gelaguas2 = computed(() => store.gelaguasDTO)
+  const increment = () => store.loadGelaguasList()
+  increment()
 
   const gelaguas = ref(data.slice(0, 6))
   const appBanners = ref(false)
