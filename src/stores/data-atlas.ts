@@ -3,7 +3,7 @@ import axios from 'axios'
 import { ref } from 'vue'
 
 interface IGelagua {
-  _id: number
+  _id: string
   imagem: string
   nome: string
   descricao: string
@@ -18,6 +18,7 @@ interface IGelagua {
 export const listaGelaguas = defineStore('listaGelaguas', {
   state: () => ({
     gelaguasDTO: ref<IGelagua[]>([]),
+    gelaguaCorrente: ref<IGelagua>(),
   }),
   actions: {
     async loadGelaguasList() {
@@ -38,6 +39,38 @@ export const listaGelaguas = defineStore('listaGelaguas', {
         headers: headers,
       })
       this.gelaguasDTO = data.documents
+    },
+    async novoGelagua() {
+      const novoGelaguaDTO: IGelagua = {
+        _id: null,
+        nome: '',
+        imagem: 'https://picsum.photos/200/300?random=4',
+        descricao: '',
+        identificadorBalanca: '',
+        ativo: true,
+        pesoMaximo: 0,
+        pesoMinimo: 0,
+      }
+      this.gelaguaCorrente = novoGelaguaDTO
+    },
+    async salvarGelagua() {
+      const dataToPost = {
+        collection: 'gelagua',
+        database: 'monitora',
+        dataSource: 'Cluster0',
+        document: {},
+      }
+      const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Headers': '*',
+        'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
+      }
+      dataToPost.document = this.gelaguaCorrente
+
+      // Realize a solicitação POST com o Axios
+      const { data } = await axios.post<IGelagua[]>('/mongo/app/data-vcreo/endpoint/data/v1/action/insertOne', dataToPost, {
+        headers: headers,
+      })
     },
   },
 })

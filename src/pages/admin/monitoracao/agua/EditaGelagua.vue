@@ -10,7 +10,7 @@
           placement="right"
           open
         >
-          <va-chip shadow color="primary" to="Listar">{{ t('monitora.garrafao.botaoSalvar') }}</va-chip>
+          <va-chip shadow color="primary" to="Listagem" @click="salvar">{{ t('monitora.garrafao.botaoSalvar') }}</va-chip>
         </va-popover>
       </va-card-content>
     </va-card>
@@ -20,7 +20,7 @@
         <form>
           <div class="grid grid-cols-12 gap-6">
             <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
-              <va-input v-model="dtoGarrafao._id.$oid" placeholder="Identificador do Botijão" label="identificador" />
+              <va-input v-model="dtoGarrafao._id" placeholder="Identificador do Botijão" label="identificador" readonly=""/>
             </div>
             <div class="col-span-full md:col-span-4 grid grid-cols-1 md:grid-cols-3">
               <fieldset class="flex flex-col">
@@ -64,10 +64,17 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { listaGelaguas } from '../../../../stores/data-atlas'
+  const store = listaGelaguas()
+  const dtoGarrafao = computed(() => store.gelaguasDTO)
+  const salvar = () => store.salvarGelagua()
+  //const novoGelagua = () => store.novoGelagua()
+
+
   const { t } = useI18n()
-  const dtoGarrafao = ref({
+  /*const dtoGarrafao = ref({
     _id: {
       $oid: '6506fc4545ddf81865da9deb',
     },
@@ -78,7 +85,7 @@
     ativo: true,
     pesoMaximo: 42.8,
     pesoMinimo: 12.6,
-  })
+  })*/
   const simpleOptions = ref([
     {
       id: 1,
@@ -93,6 +100,10 @@
       description: 'Third option',
     },
   ])
+
+  function salvarNovoGelagua() {
+    salvar()
+  }
 </script>
 
 <style lang="scss" scoped>

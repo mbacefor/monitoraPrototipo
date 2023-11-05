@@ -10,7 +10,7 @@
           placement="right"
           open
         >
-          <va-chip shadow color="primary" to="editar">{{ t('monitora.garrafao.botaoNovo') }}</va-chip>
+          <va-chip shadow color="primary" to="editar" @click="novoGelagua">{{ t('monitora.garrafao.botaoNovo') }}</va-chip>
         </va-popover>
         <div>
           <p>Contagem: {{ gelaguas2.length }}</p>
@@ -48,10 +48,11 @@
   const { t } = useI18n()
   const { init: initToast } = useToast()
   import { listaGelaguas } from '../../../../stores/data-atlas'
-
   const store = listaGelaguas()
   const gelaguas2 = computed(() => store.gelaguasDTO)
   const increment = () => store.loadGelaguasList()
+  const novoGelagua = () => store.novoGelagua()
+
   increment()
 
   const gelaguas = ref(data.slice(0, 6))
