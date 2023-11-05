@@ -45,9 +45,9 @@
                 v-model="dtoGarrafao.identificadorBalanca"
                 label="Identificador Balança"
                 searchable
-                text-by="description"
-                track-by="id"
-                :options="simpleOptions"
+                text-by="_id"
+                track-by="_id"
+                :options="dtoListaDeviceID"
               />
             </div>
             <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
@@ -70,7 +70,9 @@
   const store = listaGelaguas()
   const dtoGarrafao = computed(() => store.gelaguasDTO)
   const salvar = () => store.salvarGelagua()
-  //const novoGelagua = () => store.novoGelagua()
+  const dtoListaDeviceID = computed(() => store.idDeviceList)
+  const carregaDeviceID = () => store.loadIDDevicesList()
+  carregaDeviceID()
 
 
   const { t } = useI18n()
