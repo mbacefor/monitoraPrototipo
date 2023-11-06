@@ -55,6 +55,7 @@
                 searchable
                 text-by="_id"
                 track-by="_id"
+                value-by="_id"
                 :options="dtoListaDeviceID"
               />
             </div>
@@ -99,12 +100,19 @@
 
   const dtoGarrafao = dtoGelaguaCorrente
 
-  if (dtoGarrafao.value?.identificadorBalanca) {
-    store.loadMedicoesList(dtoGarrafao.value?.identificadorBalanca)
+  if (dtoGelaguaCorrente.value?.identificadorBalanca) {
+    store.loadMedicoesList(dtoGelaguaCorrente.value?.identificadorBalanca)
+    const medicoesDTO = computed(() => store.medicoesDTO)
+    lineChartData.datasets[0].data.length = 0
+    lineChartData.labels = []
+    lineChartData.datasets[0].label = 'Medições'
+    for (const medicao of medicoesDTO.value) {
+      lineChartData.labels?.push(medicao.dateTime.toString())
+      lineChartData.datasets[0].data.push(medicao.weight)
+    }
   }
 
   const { t } = useI18n()
-
   const lineChartDataGenerated = useChartData(lineChartData, 0.7)
 </script>
 

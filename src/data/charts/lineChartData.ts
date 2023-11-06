@@ -21,11 +21,6 @@ export const lineChartData: TLineChartData = {
       label: yLabels[0],
       backgroundColor: 'primary',
       data: generateArray(size),
-    },
-    {
-      label: yLabels[1],
-      backgroundColor: 'secondary',
-      data: generateArray(size),
-    },
+    }
   ],
 }
