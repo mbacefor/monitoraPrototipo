@@ -86,6 +86,9 @@ export const listaGelaguas = defineStore('listaGelaguas', {
       }
       this.gelaguaCorrente = novoGelaguaDTO
     },
+    async setGelaguaCorrente(gelagua: IGelagua) {
+      this.gelaguaCorrente = gelagua
+    },
     async salvarGelagua(gelagua: IGelagua) {
       const dataToPost = {
         collection: 'gelagua',

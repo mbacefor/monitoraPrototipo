@@ -75,8 +75,6 @@
   import { useI18n } from 'vue-i18n'
   import { listaGelaguas, IGelagua } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
-  //const dtoGarrafaoStore = computed(() => store.gelaguasDTO)
-  const salvar = () => store.salvarGelagua()
   const dtoListaDeviceID = computed(() => store.idDeviceList)
   const carregaDeviceID = () => store.loadIDDevicesList()
   carregaDeviceID()

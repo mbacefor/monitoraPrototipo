@@ -24,12 +24,12 @@
         <va-card class="col-span-12 sm:col-span-6 md:col-span-3" stripe stripe-color="info">
           <va-card-title>
             <va-avatar>
-              <img :src="gelagua.imagem" :alt="gelagua.nome" />
+              <img :src="gelagua.imagem" :alt="gelagua.nome"/>
             </va-avatar>
             <va-spacer />
             {{ gelagua.nome }}
             <va-spacer />
-            <va-button size="small" icon="gear" to="visualizar" />
+            <va-button size="small" icon="gear" to="visualizar" @click="setGelaguaCorrente(gelagua)"/>
           </va-card-title>
           <va-card-content>{{ gelagua.descricao }}</va-card-content>
         </va-card>
@@ -42,11 +42,14 @@
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
-  import { listaGelaguas } from '../../../../stores/data-atlas'
+  import { listaGelaguas, IGelagua } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
   const gelaguas2 = computed(() => store.gelaguasDTO)
   const increment = () => store.loadGelaguasList()
   const novoGelagua = () => store.novoGelagua()
   increment()
- 
+  function setGelaguaCorrente(gelagua: IGelagua) {
+    const store = listaGelaguas()
+    store.setGelaguaCorrente(gelagua)
+  }
 </script>
