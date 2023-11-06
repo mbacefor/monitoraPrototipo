@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { ref } from 'vue'
 
-interface IGelagua {
-  _id: string
+export interface IGelagua {
+  _id?: string
   imagem: string
   nome: string
   descricao: string
@@ -13,7 +13,7 @@ interface IGelagua {
   pesoMinimo: number
 }
 
-interface IidDevice {
+export interface IidDevice {
   _id: string
   totalContabilizado: string
 }
@@ -45,9 +45,13 @@ export const listaGelaguas = defineStore('listaGelaguas', {
       }
 
       // Realize a solicitação POST com o Axios
-      const { data } = await axios.post<IGelagua[]>('/mongo/app/data-vcreo/endpoint/data/v1/action/aggregate', dataToPost, {
-        headers: headers,
-      })
+      const { data } = await axios.post<IGelagua[]>(
+        '/mongo/app/data-vcreo/endpoint/data/v1/action/aggregate',
+        dataToPost,
+        {
+          headers: headers,
+        },
+      )
       this.idDeviceList = data.documents
     },
     async loadGelaguasList() {
@@ -71,7 +75,7 @@ export const listaGelaguas = defineStore('listaGelaguas', {
     },
     async novoGelagua() {
       const novoGelaguaDTO: IGelagua = {
-        _id: null,
+        _id: '',
         nome: '',
         imagem: 'https://picsum.photos/200/300?random=4',
         descricao: '',
@@ -82,19 +86,21 @@ export const listaGelaguas = defineStore('listaGelaguas', {
       }
       this.gelaguaCorrente = novoGelaguaDTO
     },
-    async salvarGelagua() {
+    async salvarGelagua(gelagua: IGelagua) {
       const dataToPost = {
         collection: 'gelagua',
         database: 'monitora',
         dataSource: 'Cluster0',
         document: {},
       }
+      this.gelaguaCorrente = gelagua
       const headers = {
         'Content-Type': 'application/json',
         'Access-Control-Request-Headers': '*',
         'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
       }
-      dataToPost.document = this.gelaguaCorrente
+      delete gelagua._id
+      dataToPost.document = gelagua
 
       // Realize a solicitação POST com o Axios
       const { data } = await axios.post<IGelagua[]>(

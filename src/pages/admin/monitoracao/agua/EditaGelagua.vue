@@ -10,7 +10,9 @@
           placement="right"
           open
         >
-          <va-chip shadow color="primary" to="Listagem" @click="salvar">{{ t('monitora.garrafao.botaoSalvar') }}</va-chip>
+          <va-chip shadow color="primary" to="Listagem" @click="salvarNovoGelagua">{{
+            t('monitora.garrafao.botaoSalvar')
+          }}</va-chip>
         </va-popover>
       </va-card-content>
     </va-card>
@@ -20,7 +22,12 @@
         <form>
           <div class="grid grid-cols-12 gap-6">
             <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
-              <va-input v-model="dtoGarrafao._id" placeholder="Identificador do Botijão" label="identificador" readonly=""/>
+              <va-input
+                v-model="dtoGarrafao._id"
+                placeholder="Identificador do Botijão"
+                label="identificador"
+                readonly=""
+              />
             </div>
             <div class="col-span-full md:col-span-4 grid grid-cols-1 md:grid-cols-3">
               <fieldset class="flex flex-col">
@@ -66,45 +73,31 @@
 <script setup lang="ts">
   import { ref, computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { listaGelaguas } from '../../../../stores/data-atlas'
+  import { listaGelaguas, IGelagua } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
-  const dtoGarrafao = computed(() => store.gelaguasDTO)
+  //const dtoGarrafaoStore = computed(() => store.gelaguasDTO)
   const salvar = () => store.salvarGelagua()
   const dtoListaDeviceID = computed(() => store.idDeviceList)
   const carregaDeviceID = () => store.loadIDDevicesList()
   carregaDeviceID()
 
-
   const { t } = useI18n()
-  /*const dtoGarrafao = ref({
-    _id: {
-      $oid: '6506fc4545ddf81865da9deb',
-    },
-    nome: 'Garrafão',
+  const gelaguaInstance: IGelagua = {
+    _id: '',
+    nome: '',
     imagem: 'https://picsum.photos/300/200/?image=1044',
-    descricao: 'Garrafão da faculdade 1',
-    identificadorBalanca: 'MI SCALE5',
+    descricao: '',
+    identificadorBalanca: '',
     ativo: true,
-    pesoMaximo: 42.8,
-    pesoMinimo: 12.6,
-  })*/
-  const simpleOptions = ref([
-    {
-      id: 1,
-      description: 'First option',
-    },
-    {
-      id: 2,
-      description: 'Second option',
-    },
-    {
-      id: 3,
-      description: 'Third option',
-    },
-  ])
+    pesoMaximo: 0,
+    pesoMinimo: 0,
+  }
+  // Crie uma referência (ref) para a instância
+  const dtoGarrafao = ref(gelaguaInstance)
 
   function salvarNovoGelagua() {
-    salvar()
+    const store = listaGelaguas()
+    store.salvarGelagua(dtoGarrafao.value)
   }
 </script>
 

@@ -10,12 +10,10 @@
           placement="right"
           open
         >
-          <va-chip shadow color="primary" to="editar" @click="novoGelagua">{{ t('monitora.garrafao.botaoNovo') }}</va-chip>
+          <va-chip shadow color="primary" to="editar" @click="novoGelagua">{{
+            t('monitora.garrafao.botaoNovo')
+          }}</va-chip>
         </va-popover>
-        <div>
-          <p>Contagem: {{ gelaguas2.length }}</p>
-          <button @click="increment">Incrementar</button>
-        </div>
       </va-card-content>
     </va-card>
 
@@ -41,41 +39,14 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { useToast } from 'vuestic-ui'
-  import data from '../../../../data/monitora/gelaguas.json'
   const { t } = useI18n()
-  const { init: initToast } = useToast()
   import { listaGelaguas } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
   const gelaguas2 = computed(() => store.gelaguasDTO)
   const increment = () => store.loadGelaguasList()
   const novoGelagua = () => store.novoGelagua()
-
   increment()
-
-  const gelaguas = ref(data.slice(0, 6))
-  const appBanners = ref(false)
-  const banners = ref(false)
-  const notifications = ref(true)
-
-  function getGenderIcon(gender: string) {
-    return gender === 'male' ? 'mars' : 'venus'
-  }
-
-  function getGenderColor(gender: string) {
-    return gender === 'male' ? 'info' : 'success'
-  }
-
-  function notify(name: string) {
-    initToast({
-      message: `Clicked ${name}`,
-      position: 'bottom-right',
-    })
-  }
-
-  function toggleStar(gelagua: { starred: boolean }) {
-    gelagua.starred = !gelagua.starred
-  }
+ 
 </script>
