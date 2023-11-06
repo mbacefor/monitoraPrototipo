@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { onMounted, computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { useChartData } from '../../../../data/charts/composables/useChartData'
   import {
@@ -93,24 +93,29 @@
   import VaChart from '../../../../components/va-charts/VaChart.vue'
   import { listaGelaguas, IGelagua } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
+  //store.loadIDDevicesList()
   const dtoListaDeviceID = computed(() => store.idDeviceList)
-  const carregaDeviceID = () => store.loadIDDevicesList()
-  carregaDeviceID()
   const dtoGelaguaCorrente = computed(() => store.gelaguaCorrente)
+  const dtoGarrafao = computed(() => store.gelaguaCorrente)
 
-  const dtoGarrafao = dtoGelaguaCorrente
-
-  if (dtoGelaguaCorrente.value?.identificadorBalanca) {
-    store.loadMedicoesList(dtoGelaguaCorrente.value?.identificadorBalanca)
-    const medicoesDTO = computed(() => store.medicoesDTO)
-    lineChartData.datasets[0].data.length = 0
-    lineChartData.labels = []
-    lineChartData.datasets[0].label = 'Medições'
-    for (const medicao of medicoesDTO.value) {
-      lineChartData.labels?.push(medicao.dateTime.toString())
-      lineChartData.datasets[0].data.push(medicao.weight)
+  const carregarMedicoes = async () => {
+    store.loadIDDevicesList()
+    if (dtoGelaguaCorrente.value?.identificadorBalanca) {
+      await store.loadMedicoesList(dtoGelaguaCorrente.value?.identificadorBalanca)
+      const medicoesDTO = computed(() => store.medicoesDTO)
+      lineChartData.datasets[0].data.length = 0
+      lineChartData.labels = []
+      lineChartData.datasets[0].label = 'Medições'
+      for (const medicao of medicoesDTO.value) {
+        lineChartData.labels?.push(medicao.dateTime.toString())
+        lineChartData.datasets[0].data.push(medicao.weight)
+      }
     }
   }
+
+  onMounted(() => {
+    carregarMedicoes()
+  })
 
   const { t } = useI18n()
   const lineChartDataGenerated = useChartData(lineChartData, 0.7)

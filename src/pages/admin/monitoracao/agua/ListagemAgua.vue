@@ -48,6 +48,7 @@
   const increment = () => store.loadGelaguasList()
   const novoGelagua = () => store.novoGelagua()
   increment()
+  store.loadIDDevicesList()
   function setGelaguaCorrente(gelagua: IGelagua) {
     const store = listaGelaguas()
     store.setGelaguaCorrente(gelagua)
