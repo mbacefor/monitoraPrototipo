@@ -54,6 +54,7 @@
                 searchable
                 text-by="_id"
                 track-by="_id"
+                value-by="_id"
                 :options="dtoListaDeviceID"
               />
             </div>

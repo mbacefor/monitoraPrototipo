@@ -97,19 +97,11 @@
   carregaDeviceID()
   const dtoGelaguaCorrente = computed(() => store.gelaguaCorrente)
 
-  const gelaguaInstance: IGelagua = {
-    _id: '',
-    nome: '',
-    imagem: 'https://picsum.photos/300/200/?image=1044',
-    descricao: '',
-    identificadorBalanca: '',
-    ativo: true,
-    pesoMaximo: 0,
-    pesoMinimo: 0,
-  }
-  // Crie uma referência (ref) para a instância
-  const dtoGarrafao1 = ref(gelaguaInstance)
   const dtoGarrafao = dtoGelaguaCorrente
+
+  if (dtoGarrafao.value?.identificadorBalanca) {
+    store.loadMedicoesList(dtoGarrafao.value?.identificadorBalanca)
+  }
 
   const { t } = useI18n()
 
@@ -120,6 +112,7 @@
   fieldset {
     margin-bottom: 0.5rem;
   }
+
   .chart-widget {
     .va-card__content {
       height: 300px;

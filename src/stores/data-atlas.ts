@@ -18,6 +18,13 @@ export interface IidDevice {
   totalContabilizado: string
 }
 
+export interface IMedicoes {
+  _id: string
+  weight: number
+  dateTime: Date
+  deviceID: string
+}
+
 //const gelaguasDTO = ref<IGelagua[]>([])
 
 export const listaGelaguas = defineStore('listaGelaguas', {
@@ -25,6 +32,7 @@ export const listaGelaguas = defineStore('listaGelaguas', {
     gelaguasDTO: ref<IGelagua[]>([]),
     gelaguaCorrente: ref<IGelagua>(),
     idDeviceList: ref<IidDevice[]>([]),
+    medicoesDTO: ref<IMedicoes[]>([]),
   }),
   actions: {
     async loadIDDevicesList() {
@@ -72,6 +80,25 @@ export const listaGelaguas = defineStore('listaGelaguas', {
         headers: headers,
       })
       this.gelaguasDTO = data.documents
+    },
+    async loadMedicoesList(pdeviceID: string) {
+      const dataToPost = {
+        collection: 'medicoes',
+        database: 'monitora',
+        dataSource: 'Cluster0',
+        filter: { deviceID: pdeviceID },
+      }
+      const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Headers': '*',
+        'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
+      }
+
+      // Realize a solicitação POST com o Axios
+      const { data } = await axios.post<IGelagua[]>('/mongo/app/data-vcreo/endpoint/data/v1/action/find', dataToPost, {
+        headers: headers,
+      })
+      this.medicoesDTO = data.documents
     },
     async novoGelagua() {
       const novoGelaguaDTO: IGelagua = {
