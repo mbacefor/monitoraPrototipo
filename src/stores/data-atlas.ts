@@ -13,9 +13,17 @@ export interface IGelagua {
   pesoMinimo: number
 }
 
+interface IGelaguaDocuments {
+  documents: [IGelagua]
+}
+
 export interface IidDevice {
   _id: string
   totalContabilizado: string
+}
+
+interface IidDeviceDocuments {
+  documents: [IidDevice]
 }
 
 export interface IMedicoes {
@@ -23,6 +31,10 @@ export interface IMedicoes {
   weight: number
   dateTime: Date
   deviceID: string
+}
+
+interface IMedicoesDocuments {
+  documents: [IMedicoes]
 }
 
 //const gelaguasDTO = ref<IGelagua[]>([])
@@ -35,6 +47,9 @@ export const listaGelaguas = defineStore('listaGelaguas', {
     medicoesDTO: ref<IMedicoes[]>([]),
   }),
   actions: {
+    /**
+     * Obtem a listagem de devices de medições
+     */
     async loadIDDevicesList() {
       const dataToPost = {
         collection: 'medicoes',
@@ -53,15 +68,19 @@ export const listaGelaguas = defineStore('listaGelaguas', {
       }
 
       // Realize a solicitação POST com o Axios
-      const { data } = await axios.post<IGelagua[]>(
+      const { data } = await axios.post<IidDeviceDocuments>(
         '/mongo/app/data-vcreo/endpoint/data/v1/action/aggregate',
         dataToPost,
         {
           headers: headers,
         },
       )
+
       this.idDeviceList = data.documents
     },
+    /**
+     * Obtem a liatagem de gelaguas
+     */
     async loadGelaguasList() {
       const dataToPost = {
         collection: 'gelagua',
@@ -76,11 +95,19 @@ export const listaGelaguas = defineStore('listaGelaguas', {
       }
 
       // Realize a solicitação POST com o Axios
-      const { data } = await axios.post<IGelagua[]>('/mongo/app/data-vcreo/endpoint/data/v1/action/find', dataToPost, {
-        headers: headers,
-      })
+      const { data } = await axios.post<IGelaguaDocuments>(
+        '/mongo/app/data-vcreo/endpoint/data/v1/action/find',
+        dataToPost,
+        {
+          headers: headers,
+        },
+      )
       this.gelaguasDTO = data.documents
     },
+    /**
+     * Obtem as medicoes de um device de medição
+     * @param pdeviceID
+     */
     async loadMedicoesList(pdeviceID: string) {
       const dataToPost = {
         collection: 'medicoes',
@@ -95,9 +122,13 @@ export const listaGelaguas = defineStore('listaGelaguas', {
       }
 
       // Realize a solicitação POST com o Axios
-      const { data } = await axios.post<IGelagua[]>('/mongo/app/data-vcreo/endpoint/data/v1/action/find', dataToPost, {
-        headers: headers,
-      })
+      const { data } = await axios.post<IMedicoesDocuments>(
+        '/mongo/app/data-vcreo/endpoint/data/v1/action/find',
+        dataToPost,
+        {
+          headers: headers,
+        },
+      )
       this.medicoesDTO = data.documents
     },
     async novoGelagua() {
@@ -129,6 +160,7 @@ export const listaGelaguas = defineStore('listaGelaguas', {
         'Access-Control-Request-Headers': '*',
         'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
       }
+
       delete gelagua._id
       dataToPost.document = gelagua
 

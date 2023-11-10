@@ -72,7 +72,7 @@
     <va-card v-if="lineChartDataGenerated" class="chart-widget col-span-12">
       <va-card-title>{{ t('charts.lineChart') }}</va-card-title>
       <va-card-content>
-        <va-chart :data="lineChartDataGenerated" type="line" />
+        <va-chart :data="lineChartDataGenerated" type="line"  />
       </va-card-content>
     </va-card>
   </div>
@@ -82,43 +82,33 @@
   import { onMounted, computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { useChartData } from '../../../../data/charts/composables/useChartData'
-  import {
-    lineChartData,
-    doughnutChartData,
-    bubbleChartData,
-    pieChartData,
-    barChartData,
-    horizontalBarChartData,
-  } from '../../../../data/charts'
+  import { lineChartData } from '../../../../data/charts'
   import VaChart from '../../../../components/va-charts/VaChart.vue'
-  import { listaGelaguas, IGelagua } from '../../../../stores/data-atlas'
+  import { listaGelaguas } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
   //store.loadIDDevicesList()
   const dtoListaDeviceID = computed(() => store.idDeviceList)
   const dtoGelaguaCorrente = computed(() => store.gelaguaCorrente)
   const dtoGarrafao = computed(() => store.gelaguaCorrente)
 
-  const carregarMedicoes = async () => {
-    store.loadIDDevicesList()
+  async function carregarMedicoes() {
     if (dtoGelaguaCorrente.value?.identificadorBalanca) {
       await store.loadMedicoesList(dtoGelaguaCorrente.value?.identificadorBalanca)
       const medicoesDTO = computed(() => store.medicoesDTO)
       lineChartData.datasets[0].data.length = 0
-      lineChartData.labels = []
+      lineChartData.labels = [] 
       lineChartData.datasets[0].label = 'Medições'
       for (const medicao of medicoesDTO.value) {
         lineChartData.labels?.push(medicao.dateTime.toString())
         lineChartData.datasets[0].data.push(medicao.weight)
       }
+      lineChartDataGenerated = useChartData(lineChartData, 0.7)
     }
   }
-
-  onMounted(() => {
-    carregarMedicoes()
-  })
+  carregarMedicoes()
 
   const { t } = useI18n()
-  const lineChartDataGenerated = useChartData(lineChartData, 0.7)
+  let lineChartDataGenerated = useChartData(lineChartData, 0.7)
 </script>
 
 <style lang="scss" scoped>

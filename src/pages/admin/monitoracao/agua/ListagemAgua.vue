@@ -49,8 +49,8 @@
   const novoGelagua = () => store.novoGelagua()
   increment()
   store.loadIDDevicesList()
-  function setGelaguaCorrente(gelagua: IGelagua) {
+  async function setGelaguaCorrente(gelagua: IGelagua) {
     const store = listaGelaguas()
-    store.setGelaguaCorrente(gelagua)
+    await new Promise(() => store.setGelaguaCorrente(gelagua))
   }
 </script>
