@@ -72,43 +72,42 @@
     <va-card v-if="lineChartDataGenerated" class="chart-widget col-span-12">
       <va-card-title>{{ t('charts.lineChart') }}</va-card-title>
       <va-card-content>
-        <va-chart :data="lineChartDataGenerated" type="line"  />
+        <va-chart :data="lineChartDataGenerated" type="line" />
       </va-card-content>
     </va-card>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { onMounted, computed } from 'vue'
+  import { onMounted, computed } from 'vue' 
   import { useI18n } from 'vue-i18n'
   import { useChartData } from '../../../../data/charts/composables/useChartData'
-  import { lineChartData } from '../../../../data/charts'
+  import { lineChartData } from './lineChartData'
   import VaChart from '../../../../components/va-charts/VaChart.vue'
   import { listaGelaguas } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
+  const { t } = useI18n()
   //store.loadIDDevicesList()
   const dtoListaDeviceID = computed(() => store.idDeviceList)
   const dtoGelaguaCorrente = computed(() => store.gelaguaCorrente)
   const dtoGarrafao = computed(() => store.gelaguaCorrente)
+  const lineChartDataGenerated = computed(() => store.chartData)
 
-  async function carregarMedicoes() {
+  /*async function carregarMedicoes() {
     if (dtoGelaguaCorrente.value?.identificadorBalanca) {
       await store.loadMedicoesList(dtoGelaguaCorrente.value?.identificadorBalanca)
       const medicoesDTO = computed(() => store.medicoesDTO)
       lineChartData.datasets[0].data.length = 0
-      lineChartData.labels = [] 
+      lineChartData.labels = []
       lineChartData.datasets[0].label = 'Medições'
       for (const medicao of medicoesDTO.value) {
         lineChartData.labels?.push(medicao.dateTime.toString())
         lineChartData.datasets[0].data.push(medicao.weight)
       }
-      lineChartDataGenerated = useChartData(lineChartData, 0.7)
+      //lineChartDataGenerated = useChartData(lineChartData, 0.7)
     }
   }
-  carregarMedicoes()
-
-  const { t } = useI18n()
-  let lineChartDataGenerated = useChartData(lineChartData, 0.7)
+  carregarMedicoes() */
 </script>
 
 <style lang="scss" scoped>

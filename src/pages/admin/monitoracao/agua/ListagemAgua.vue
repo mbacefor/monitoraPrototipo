@@ -24,12 +24,12 @@
         <va-card class="col-span-12 sm:col-span-6 md:col-span-3" stripe stripe-color="info">
           <va-card-title>
             <va-avatar>
-              <img :src="gelagua.imagem" :alt="gelagua.nome"/>
+              <img :src="gelagua.imagem" :alt="gelagua.nome" />
             </va-avatar>
             <va-spacer />
             {{ gelagua.nome }}
             <va-spacer />
-            <va-button size="small" icon="gear" to="visualizar" @click="setGelaguaCorrente(gelagua)"/>
+            <va-button size="small" icon="gear" @click="setGelaguaCorrente(gelagua)" />
           </va-card-title>
           <va-card-content>{{ gelagua.descricao }}</va-card-content>
         </va-card>
@@ -41,6 +41,10 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
+  import { useChartData } from '../../../../data/charts/composables/useChartData'
+  import { lineChartData } from '../../../../data/charts'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
   const { t } = useI18n()
   import { listaGelaguas, IGelagua } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
@@ -51,6 +55,8 @@
   store.loadIDDevicesList()
   async function setGelaguaCorrente(gelagua: IGelagua) {
     const store = listaGelaguas()
-    await new Promise(() => store.setGelaguaCorrente(gelagua))
+    await store.setGelaguaCorrente(gelagua)
+    await store.carregarMedicoes(gelagua)
+    router.push({ name: 'aguaVisualizar' })
   }
 </script>

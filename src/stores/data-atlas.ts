@@ -37,6 +37,17 @@ interface IMedicoesDocuments {
   documents: [IMedicoes]
 }
 
+interface ChartDataset {
+  label: string
+  backgroundColor: string
+  data: number[]
+}
+
+interface ChartData {
+  labels: string[]
+  datasets: ChartDataset[]
+}
+
 //const gelaguasDTO = ref<IGelagua[]>([])
 
 export const listaGelaguas = defineStore('listaGelaguas', {
@@ -45,8 +56,34 @@ export const listaGelaguas = defineStore('listaGelaguas', {
     gelaguaCorrente: ref<IGelagua>(),
     idDeviceList: ref<IidDevice[]>([]),
     medicoesDTO: ref<IMedicoes[]>([]),
+    chartData: ref<ChartData>(),
   }),
   actions: {
+    async carregarMedicoes(gelagua: IGelagua) {
+      this.chartData = {
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+        datasets: [
+          {
+            label: 'Vendas',
+            backgroundColor: '#f87979',
+            data: [65, 59, 80, 81, 56],
+          },
+        ],
+      }
+      if (gelagua?.identificadorBalanca) {
+        await this.loadMedicoesList(gelagua?.identificadorBalanca)
+        const medicoesDTO = this.medicoesDTO
+        this.chartData.datasets[0].data.length = 0
+        this.chartData.labels = []
+        this.chartData.datasets[0].label = 'Medições'
+        for (const medicao of medicoesDTO) {
+          this.chartData.labels?.push(medicao.dateTime.toString())
+          this.chartData.datasets[0].data.push(medicao.weight)
+        }
+        //lineChartDataGenerated = useChartData(lineChartData, 0.7)
+      }
+    },
+
     /**
      * Obtem a listagem de devices de medições
      */
