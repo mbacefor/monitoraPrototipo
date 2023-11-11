@@ -79,17 +79,15 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, computed } from 'vue' 
+  import { computed } from 'vue' 
   import { useI18n } from 'vue-i18n'
-  import { useChartData } from '../../../../data/charts/composables/useChartData'
-  import { lineChartData } from './lineChartData'
   import VaChart from '../../../../components/va-charts/VaChart.vue'
   import { listaGelaguas } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
   const { t } = useI18n()
   //store.loadIDDevicesList()
   const dtoListaDeviceID = computed(() => store.idDeviceList)
-  const dtoGelaguaCorrente = computed(() => store.gelaguaCorrente)
+  //const dtoGelaguaCorrente = computed(() => store.gelaguaCorrente)
   const dtoGarrafao = computed(() => store.gelaguaCorrente)
   const lineChartDataGenerated = computed(() => store.chartData)
 
