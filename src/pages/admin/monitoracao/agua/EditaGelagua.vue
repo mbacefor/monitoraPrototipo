@@ -25,7 +25,7 @@
             <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
               <va-input
                 v-model="dtoGarrafao._id"
-                placeholder="Identificador do Botijão"
+                placeholder="Identificador do garrafão"
                 label="identificador"
                 readonly
               />
@@ -39,7 +39,7 @@
             <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
               <va-input
                 v-model="dtoGarrafao.nome"
-                placeholder="Texto identificador Botijão"
+                placeholder="Texto identificador garrafão"
                 label="Nome (*)"
                 :rules="[(value) => (value && value.length > 5) || 'Nome é requerido (maior 5 caracteres)']"
               />
@@ -48,7 +48,7 @@
               <va-input
                 v-model="dtoGarrafao.descricao"
                 type="textarea"
-                placeholder="Campo livre para descrição do botijão"
+                placeholder="Campo livre para descrição do garrafão"
                 :rules="[(value) => (value && value.length > 10) || 'Descrição é requerida (maior 10 caracteres)']"
                 label="Descrição (*)"
               >

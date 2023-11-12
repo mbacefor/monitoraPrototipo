@@ -208,6 +208,28 @@ export const listaGelaguas = defineStore('listaGelaguas', {
         },
       )
     },
+    async excluirGelagua(idGelagua: string) {
+      const dataToPost = {
+        collection: 'gelagua',
+        database: 'monitora',
+        dataSource: 'Cluster0',
+        filter: {
+          _id: { $oid: idGelagua },
+        },
+      }
+      const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Headers': '*',
+        'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
+      }
+      const { data } = await axios.post<IGelagua[]>(
+        '/mongo/app/data-vcreo/endpoint/data/v1/action/deleteOne',
+        dataToPost,
+        {
+          headers: headers,
+        },
+      )
+    },
   },
 })
 

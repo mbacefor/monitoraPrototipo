@@ -18,6 +18,7 @@
           onclick='document.getElementById("iGarrafao").getElementById("agua").setAttribute("height", parseFloat(document.getElementById("iGarrafao").getElementById("agua").getAttribute("height")-10) )'
           >Consome Gás</va-chip
         >
+        <va-chip shadow color="secundary" @click="excluirNovoGelagua()">Excluir</va-chip>
       </va-card-content>
     </va-card>
     <va-card class="col-span-2">
@@ -182,11 +183,25 @@
   import { useI18n } from 'vue-i18n'
   import VaChart from '../../../../components/va-charts/VaChart.vue'
   import { listaGelaguas } from '../../../../stores/data-atlas'
+  import { useRouter } from 'vue-router'
+  import { useToast, useColors } from 'vuestic-ui'
+  const { colors } = useColors()
+  const { init: initToast } = useToast()
+  const router = useRouter()
   const store = listaGelaguas()
   const { t } = useI18n()
   const dtoListaDeviceID = computed(() => store.idDeviceList)
   const dtoGarrafao = computed(() => store.gelaguaCorrente)
   const lineChartDataGenerated = computed(() => store.chartData)
+
+  async function excluirNovoGelagua() {
+    if (dtoGarrafao.value?._id) {
+      await store.excluirGelagua(dtoGarrafao.value._id)
+      const color = colors.success
+      initToast({ message: 'Garrafão excluído!', color })
+      router.push({ name: 'agua' })
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
