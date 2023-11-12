@@ -264,7 +264,8 @@
       "botaoNovo": "Inserir Novo Garrafão",
       "botaoSalvar": "Salvar Garrafão",
       "editarTitulo": "Cadastro de Garrafão",
-      "visualizarTitulo": "Garrafão Vazio"
+      "visualizarTitulo": "Garrafão Vazio",
+      "listagem": "Listagem de Garrafão"
     },
     "botijao": {
       "botaoNovo": "Inserir Novo Botijão",
