@@ -140,9 +140,9 @@
     "simplified_chinese": "Chinês simplificado"
   },
   "menu": {
-    "monitoracao":"Monitoração",
-    "agua" : "Água",
-    "gas" : "Gás",
+    "monitoracao": "Monitoração",
+    "agua": "Água",
+    "gas": "Gás",
     "auth": "Autorização",
     "buttons": "Botões",
     "charts": "Gráficos",
@@ -260,11 +260,11 @@
   },
   "monitora": {
     "operacoes": "Funcionalidades",
-    "garrafao":{
-      "botaoNovo":"Inserir Novo Garrafão",
-      "botaoSalvar":"Salvar Garrafão",
-      "editarTitulo":"Cadastro de Garrafão",
-      "visualizarTitulo": "Garrafão Vazio",
+    "garrafao": {
+      "botaoNovo": "Inserir Novo Garrafão",
+      "botaoSalvar": "Salvar Garrafão",
+      "editarTitulo": "Cadastro de Garrafão",
+      "visualizarTitulo": "Garrafão Vazio"
     },
     "botijao": {
       "botaoNovo": "Inserir Novo Botijão",

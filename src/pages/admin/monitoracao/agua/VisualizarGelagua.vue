@@ -79,33 +79,15 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue' 
+  import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import VaChart from '../../../../components/va-charts/VaChart.vue'
   import { listaGelaguas } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
   const { t } = useI18n()
-  //store.loadIDDevicesList()
   const dtoListaDeviceID = computed(() => store.idDeviceList)
-  //const dtoGelaguaCorrente = computed(() => store.gelaguaCorrente)
   const dtoGarrafao = computed(() => store.gelaguaCorrente)
   const lineChartDataGenerated = computed(() => store.chartData)
-
-  /*async function carregarMedicoes() {
-    if (dtoGelaguaCorrente.value?.identificadorBalanca) {
-      await store.loadMedicoesList(dtoGelaguaCorrente.value?.identificadorBalanca)
-      const medicoesDTO = computed(() => store.medicoesDTO)
-      lineChartData.datasets[0].data.length = 0
-      lineChartData.labels = []
-      lineChartData.datasets[0].label = 'Medições'
-      for (const medicao of medicoesDTO.value) {
-        lineChartData.labels?.push(medicao.dateTime.toString())
-        lineChartData.datasets[0].data.push(medicao.weight)
-      }
-      //lineChartDataGenerated = useChartData(lineChartData, 0.7)
-    }
-  }
-  carregarMedicoes() */
 </script>
 
 <style lang="scss" scoped>

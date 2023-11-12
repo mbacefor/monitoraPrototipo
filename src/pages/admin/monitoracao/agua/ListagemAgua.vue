@@ -1,3 +1,5 @@
+<!--Realiza a listagem dos gelaguas-->
+
 <template>
   <div class="cards">
     <va-card class="larger-padding col-span-12">
@@ -39,20 +41,22 @@
 </template>
 
 <script setup lang="ts">
+  import { listaGelaguas, IGelagua } from '../../../../stores/data-atlas'
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { useChartData } from '../../../../data/charts/composables/useChartData'
-  import { lineChartData } from '../../../../data/charts'
   import { useRouter } from 'vue-router'
   const router = useRouter()
   const { t } = useI18n()
-  import { listaGelaguas, IGelagua } from '../../../../stores/data-atlas'
   const store = listaGelaguas()
   const gelaguas2 = computed(() => store.gelaguasDTO)
   const increment = () => store.loadGelaguasList()
   const novoGelagua = () => store.novoGelagua()
   increment()
   store.loadIDDevicesList()
+  /**
+   * Metodo que inicia a visualização do gelhagua
+   * @param gelagua
+   */
   async function setGelaguaCorrente(gelagua: IGelagua) {
     const store = listaGelaguas()
     await store.setGelaguaCorrente(gelagua)

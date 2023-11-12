@@ -48,8 +48,6 @@ interface ChartData {
   datasets: ChartDataset[]
 }
 
-//const gelaguasDTO = ref<IGelagua[]>([])
-
 export const listaGelaguas = defineStore('listaGelaguas', {
   state: () => ({
     gelaguasDTO: ref<IGelagua[]>([]),
