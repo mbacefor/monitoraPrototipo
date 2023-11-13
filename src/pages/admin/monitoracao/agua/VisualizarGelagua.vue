@@ -201,11 +201,13 @@
 
   async function consome() {
     const iGarrafao = document.getElementById('iGarrafao')
-    const agua = iGarrafao ? iGarrafao.getElementById('agua') : null
+    const agua = iGarrafao ? iGarrafao.querySelector('#agua') : null
 
     if (agua) {
-      const currentHeight = parseFloat(agua.getAttribute('height'))
-      const y = parseFloat(agua.getAttribute('y'))
+      let height: string = agua.getAttribute('height') ?? '0'
+      let y: string = agua.getAttribute('y') ?? '0'
+      const currentHeight = parseFloat(height)
+      const currentY = parseFloat(y)
 
       let percentual = 1
       if (dtoGarrafao.value?.pesoMaximo && dtoGarrafao.value?.pesoMinimo && pesoFinal) {
@@ -215,8 +217,8 @@
       }
 
       let tamanhoDiminuido = currentHeight - currentHeight * percentual
-      agua.setAttribute('height', currentHeight * percentual)
-      agua.setAttribute('y', y + tamanhoDiminuido)
+      agua.setAttribute('height', (currentHeight * percentual).toString())
+      agua.setAttribute('y', (currentY + tamanhoDiminuido).toString())
     }
   }
 
