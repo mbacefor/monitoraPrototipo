@@ -12,12 +12,7 @@
         >
           <va-chip shadow color="primary" to="listagem">{{ t('monitora.garrafao.listagem') }}</va-chip>
         </va-popover>
-        <va-chip
-          shadow
-          color="secundary"
-          onclick='document.getElementById("iGarrafao").getElementById("agua").setAttribute("height", parseFloat(document.getElementById("iGarrafao").getElementById("agua").getAttribute("height")-10) )'
-          >Consome Gás</va-chip
-        >
+        <va-chip shadow color="secundary" @click="consome()">Consome Gás</va-chip>
         <va-chip shadow color="secundary" @click="excluirNovoGelagua()">Excluir</va-chip>
       </va-card-content>
     </va-card>
@@ -179,7 +174,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, onMounted } from 'vue'
   import { useI18n } from 'vue-i18n'
   import VaChart from '../../../../components/va-charts/VaChart.vue'
   import { listaGelaguas } from '../../../../stores/data-atlas'
@@ -193,6 +188,7 @@
   const dtoListaDeviceID = computed(() => store.idDeviceList)
   const dtoGarrafao = computed(() => store.gelaguaCorrente)
   const lineChartDataGenerated = computed(() => store.chartData)
+  const pesoFinal = computed(() => store.pesoFinal)
 
   async function excluirNovoGelagua() {
     if (dtoGarrafao.value?._id) {
@@ -202,6 +198,31 @@
       router.push({ name: 'agua' })
     }
   }
+
+  async function consome() {
+    const iGarrafao = document.getElementById('iGarrafao')
+    const agua = iGarrafao ? iGarrafao.getElementById('agua') : null
+
+    if (agua) {
+      const currentHeight = parseFloat(agua.getAttribute('height'))
+      const y = parseFloat(agua.getAttribute('y'))
+
+      let percentual = 1
+      if (dtoGarrafao.value?.pesoMaximo && dtoGarrafao.value?.pesoMinimo && pesoFinal) {
+        percentual =
+          (pesoFinal.value - dtoGarrafao.value?.pesoMinimo) /
+          (dtoGarrafao.value?.pesoMaximo - dtoGarrafao.value?.pesoMinimo)
+      }
+
+      let tamanhoDiminuido = currentHeight - currentHeight * percentual
+      agua.setAttribute('height', currentHeight * percentual)
+      agua.setAttribute('y', y + tamanhoDiminuido)
+    }
+  }
+
+  onMounted(() => {
+    consome()
+  })
 </script>
 
 <style lang="scss" scoped>

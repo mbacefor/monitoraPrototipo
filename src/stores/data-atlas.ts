@@ -55,6 +55,7 @@ export const listaGelaguas = defineStore('listaGelaguas', {
     idDeviceList: ref<IidDevice[]>([]),
     medicoesDTO: ref<IMedicoes[]>([]),
     chartData: ref<ChartData>(),
+    pesoFinal: Number(0),
   }),
   actions: {
     async carregarMedicoes(gelagua: IGelagua) {
@@ -77,6 +78,7 @@ export const listaGelaguas = defineStore('listaGelaguas', {
         for (const medicao of medicoesDTO) {
           this.chartData.labels?.push(medicao.dateTime.toString())
           this.chartData.datasets[0].data.push(medicao.weight)
+          this.pesoFinal = medicao.weight
         }
         //lineChartDataGenerated = useChartData(lineChartData, 0.7)
       }
