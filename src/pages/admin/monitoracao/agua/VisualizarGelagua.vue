@@ -12,7 +12,7 @@
         >
           <va-chip shadow color="primary" to="listagem">{{ t('monitora.garrafao.listagem') }}</va-chip>
         </va-popover>
-        <va-chip shadow color="secundary" @click="consome()">Consome Gás</va-chip>
+        <!-- <va-chip shadow color="secundary" @click="consome()">Consome Gás</va-chip> -->
         <va-chip shadow color="secundary" @click="excluirNovoGelagua()">Excluir</va-chip>
       </va-card-content>
     </va-card>
