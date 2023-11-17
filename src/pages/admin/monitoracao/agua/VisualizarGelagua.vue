@@ -167,7 +167,7 @@
     <va-card v-if="lineChartDataGenerated" class="chart-widget col-span-12">
       <va-card-title>{{ t('charts.lineChart') }}</va-card-title>
       <va-card-content>
-        <va-chart :data="lineChartDataGenerated" type="line" />
+        <va-chart :data="lineChartDataGenerated" type="line" :options="options" />
       </va-card-content>
     </va-card>
   </div>
@@ -189,6 +189,10 @@
   const dtoGarrafao = computed(() => store.gelaguaCorrente)
   const lineChartDataGenerated = computed(() => store.chartData)
   const pesoFinal = computed(() => store.pesoFinal)
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+  }
 
   async function excluirNovoGelagua() {
     if (dtoGarrafao.value?._id) {

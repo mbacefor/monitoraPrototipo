@@ -67,17 +67,32 @@ export const listaGelaguas = defineStore('listaGelaguas', {
             backgroundColor: '#f87979',
             data: [65, 59, 80, 81, 56],
           },
+          {
+            label: 'Vendas',
+            backgroundColor: '#B9F7F0',
+            data: [65, 59, 80, 81, 56],
+          },
         ],
       }
       if (gelagua?.identificadorBalanca) {
         await this.loadMedicoesList(gelagua?.identificadorBalanca)
         const medicoesDTO = this.medicoesDTO
         this.chartData.datasets[0].data.length = 0
+        this.chartData.datasets[1].data.length = 0
+
         this.chartData.labels = []
-        this.chartData.datasets[0].label = 'Medições'
+        this.chartData.datasets[0].label = 'Consumo'
+        this.chartData.datasets[1].label = 'Medições'
+        this.chartData.datasets[0].backgroundColor = '#FF5733'
+        this.chartData.datasets[1].backgroundColor = '#D6EAF8'
+
         for (const medicao of medicoesDTO) {
+          const dateString = medicao.dateTime.toString()
+          const dateObject = new Date(dateString)
+          //this.chartData.labels?.push(dateObject.getTime().toString())
           this.chartData.labels?.push(medicao.dateTime.toString())
-          this.chartData.datasets[0].data.push(medicao.weight)
+          this.chartData.datasets[0].data.push(Number(gelagua.pesoMinimo) + (gelagua.pesoMaximo - medicao.weight))
+          this.chartData.datasets[1].data.push(medicao.weight)
           this.pesoFinal = medicao.weight
         }
         //lineChartDataGenerated = useChartData(lineChartData, 0.7)
