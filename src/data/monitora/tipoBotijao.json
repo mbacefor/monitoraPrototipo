@@ -1,0 +1,42 @@
+[
+  {
+    "id": "P13",
+    "nome": "Botijão de Gás P13",
+    "pesoMaximo": {
+      "$numberDecimal": "13"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "5"
+    }
+  },
+  {
+    "id": "P25",
+    "nome": "Botijão de Gás P25",
+    "pesoMaximo": {
+      "$numberDecimal": "25"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "13"
+    }
+  },
+  {
+    "id": "P50",
+    "nome": "Botijão de Gás P50",
+    "pesoMaximo": {
+      "$numberDecimal": "50"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "25"
+    }
+  },
+  {
+    "id": "P65",
+    "nome": "Botijão de Gás P65",
+    "pesoMaximo": {
+      "$numberDecimal": "65"
+    },
+    "pesoMinimo": {
+      "$numberDecimal": "50"
+    }
+  }
+]

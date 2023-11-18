@@ -160,6 +160,12 @@
             <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
               <va-input v-model="dtoGarrafao.pesoMaximo" type="number" label="Peso Máximo" readonly> </va-input>
             </div>
+            <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
+              <va-input v-model="pesoFinal" type="number" label="Peso Atual" readonly> </va-input>
+            </div>
+            <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
+              <va-input v-model="percentualRestante" type="number" label="Percentual Restante" readonly> </va-input>
+            </div>
           </div>
         </form>
       </va-card-content>
@@ -189,6 +195,7 @@
   const dtoGarrafao = computed(() => store.gelaguaCorrente)
   const lineChartDataGenerated = computed(() => store.chartData)
   const pesoFinal = computed(() => store.pesoFinal)
+  const percentualRestante = computed(() => 100 * (pesoFinal.value / dtoGarrafao.value?.pesoMaximo))
   const options = {
     responsive: true,
     maintainAspectRatio: false,

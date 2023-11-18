@@ -1,27 +1,20 @@
 <template>
   <div class="form-elements grid grid-cols-12 gap-6">
     <va-card class="larger-padding col-span-12">
-      <va-card-title>{{ t('monitora.operacoes') }}</va-card-title>
-      <va-card-content>
-        <va-popover
-          icon="propane_tank"
-          color="warning"
-          message="Clique e salve os dados do Botijão!"
-          placement="right"
-          open
-        >
-          <va-chip shadow color="primary" to="Listar">{{ t('monitora.botijao.botaoSalvar') }}</va-chip>
-        </va-popover>
-        <va-chip
-          shadow
-          color="secundary"
-          onclick='document.getElementById("iBotijao").getElementById("botijaoSVG").setAttribute("y", parseFloat(document.getElementById("iBotijao").getElementById("botijaoSVG").getAttribute("y")-10) )'
-          >Consome Gás</va-chip
-        >
+      <va-card-content class="space-x-3">
+        <va-button preset="primary" text-color="#1E3A8A" class="mr-6 mb-1" to="listagem">
+          <i class="fas fa-arrow-left"></i> Voltar
+        </va-button>
+        <va-button preset="primary" text-color="#1E3A8A" class="mr-6 mb-3" to="editar">
+          <i class="fas fa-edit"></i> Editar
+        </va-button>
+        <va-button preset="primary" text-color="#1E3A8A" class="mr-6 mb-6" @click="excluirNovoBotijao()">
+          <i class="fas fa-trash-alt"></i> Excluir
+        </va-button>
       </va-card-content>
     </va-card>
     <va-card class="col-span-2">
-      <va-card-title>{{ t('monitora.botijao.visualizarTitulo') }}</va-card-title>
+      <va-card-title>Visualizar Botijão</va-card-title>
       <va-card-content>
         <div class="grid grid-cols-1 gap-6">
           <svg
@@ -62,42 +55,99 @@
       <va-card-content>
         <form>
           <div class="grid grid-cols-12 gap-6">
-            <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
-              <va-input v-model="dtoBotijao._id.$oid" placeholder="Identificador do Botijão" label="identificador" />
+            <div class="col-span-12 sm:col-span-8 md:col-span-8 mb-2">
+              <label for="tipoBotijao" class="text-lg font-bold text-blue-900">Identificador</label>
+              <va-input
+                v-model="dtoBotijao._id"
+                color="primary"
+                class="cursor-not-allowed text-inherit"
+                placeholder="Identificador do Botijão"
+                readonly
+              />
             </div>
-            <div class="col-span-full md:col-span-4 grid grid-cols-1 md:grid-cols-3">
+
+            <div class="col-span-12 sm:col-span-8 md:col-span-4 md:col-start-1">
+              <label for="tipoBotijao" class="text-lg font-bold text-blue-900">Nome</label>
+              <va-input
+                v-model="dtoBotijao.nome"
+                class="cursor-not-allowed"
+                placeholder="Identificador Botijão"
+                readonly
+              />
+            </div>
+            <div class="col-span-12 sm:col-span-8 md:col-span-4">
+              <label for="tipoBotijao" class="text-lg font-bold text-blue-900">Identificador Balança</label>
+              <va-select
+                v-model="dtoBotijao.identificadorBalanca"
+                class="cursor-not-allowed"
+                searchable
+                text-by="_id"
+                track-by="_id"
+                value-by="_id"
+                :options="dtoListaDeviceID"
+                readonly
+              />
+            </div>
+
+            <div class="col-span-12 md:col-span-2 md:col-start-10">
               <fieldset class="flex flex-col">
-                <va-switch v-model="dtoBotijao.ativo" label="Ativo" class="mr-8 mb-2" />
+                <va-switch v-model="dtoBotijao.ativo" label="Ativo" color="#1E3A8A" class="mr-8 mb-2" readonly />
               </fieldset>
             </div>
             <div class="flex md:col-span-4 sm:col-span-6 col-span-12"></div>
-            <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
-              <va-input v-model="dtoBotijao.nome" placeholder="Texto identificador Botijão" label="Nome" />
-            </div>
-            <div class="flex md:col-span-8 sm:col-span-6 col-span-12">
+
+            <div class="col-span-12 sm:col-span-10 md:col-span-10">
+              <label for="tipoBotijao" class="text-lg font-bold text-blue-900">Descrição</label>
               <va-input
                 v-model="dtoBotijao.descricao"
                 type="textarea"
+                class="bg-gray-100 cursor-not-allowed text-gray-500"
                 placeholder="Campo livre para descrição do botijão"
-                label="Descrição"
+                readonly
               >
               </va-input>
             </div>
-            <div class="flex md:col-span-4 col-span-12">
-              <va-select
-                v-model="dtoBotijao.identificadorBalanca"
-                label="Identificador Balança"
-                searchable
-                text-by="description"
-                track-by="id"
-                :options="simpleOptions"
+
+            <div class="col-span-12 sm:col-span-6 md:col-span-4">
+              <label for="tipoBotijao" class="text-lg font-bold text-blue-900">Tipo de Botijão</label>
+              <select
+                id="tipoBotijao"
+                v-model="dtoBotijao.tipoBotijao"
+                class="w-full p-2 bg-gray-200 cursor-not-allowed rounded"
+              >
+                <option value="">Selecione o tipo de Botijão</option>
+                <option v-for="tipo in tipoBotijaoData" :key="tipo.id" :value="tipo.id">{{ tipo.nome }}</option>
+              </select>
+            </div>
+            <div v-if="true" class="col-span-12 sm:col-span-6 md:col-span-4">
+              <label for="pesoMinimo" class="text-lg font-bold text-blue-900">Peso Mínimo</label>
+              <va-input
+                id="pesoMinimo"
+                v-model="dtoBotijao.pesoMinimo"
+                class="bg-gray-100 cursor-not-allowed text-gray-500"
+                type="number"
+                readonly
               />
             </div>
-            <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
-              <va-input v-model="dtoBotijao.pesoMinimo" type="number" label="Peso Mínimo"> </va-input>
+            <div v-if="true" class="col-span-12 sm:col-span-6 md:col-span-4">
+              <label for="pesoMaximo" class="text-lg font-bold text-blue-900">Peso Máximo</label>
+              <va-input
+                id="pesoMaximo"
+                v-model="dtoBotijao.pesoMaximo"
+                class="bg-gray-100 cursor-not-allowed text-gray-500"
+                type="number"
+                readonly
+              />
             </div>
-            <div class="flex md:col-span-4 sm:col-span-6 col-span-12">
-              <va-input v-model="dtoBotijao.pesoMaximo" type="number" label="Peso Máximo"> </va-input>
+            <div v-if="true" class="col-span-12 sm:col-span-6 md:col-span-4">
+              <label for="pesoAtual" class="text-lg font-bold text-blue-900">Peso Atual</label>
+              <va-input
+                id="pesoMaximo"
+                v-model="pesoFinal"
+                class="bg-gray-100 cursor-not-allowed text-gray-500"
+                type="number"
+                readonly
+              />
             </div>
           </div>
         </form>
@@ -113,49 +163,75 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { computed, onMounted } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import { useChartData } from '../../../../data/charts/composables/useChartData'
-  import {
-    lineChartData,
-    doughnutChartData,
-    bubbleChartData,
-    pieChartData,
-    barChartData,
-    horizontalBarChartData,
-  } from '../../../../data/charts'
   import VaChart from '../../../../components/va-charts/VaChart.vue'
+  import { listaBotijao, IBotijao } from '../../../../stores/data-atlas-gas'
+  import { useRouter } from 'vue-router'
+  import { useToast, useColors } from 'vuestic-ui'
+  import tipoBotijaoData from '../../../../data/monitora/tipoBotijao.json'
+  import '@fortawesome/fontawesome-free/css/all.css'
 
+  const { colors } = useColors()
+  const { init: initToast } = useToast()
+  const router = useRouter()
+  const store = listaBotijao()
   const { t } = useI18n()
-  const dtoBotijao = ref({
-    _id: {
-      $oid: '6506fc4545ddf81865da9deb',
-    },
-    nome: 'Botijão Fazenda 3',
-    imagem: 'https://picsum.photos/300/200/?image=1044',
-    descricao: 'Botijão da Minha Fazenda 3',
-    identificadorBalanca: 'MI SCALE5',
-    ativo: true,
-    pesoMaximo: 42.8,
-    pesoMinimo: 12.6,
+  const dtoListaDeviceID = computed(() => store.idDeviceList)
+  const dtoBotijao = computed(() => store.botijaoCorrente)
+  const lineChartDataGenerated = computed(() => store.chartData)
+  const pesoFinal = computed(() => store.pesoFinal)
+
+  async function excluirNovoBotijao() {
+    if (dtoBotijao.value?._id) {
+      await store.excluirBotijao(dtoBotijao.value._id)
+      const color = colors.backgroundElement
+      initToast({ message: 'Botijão excluído.', color })
+      router.push({ name: 'gas' })
+    }
+  }
+
+  async function consome() {
+    const iBotijao = document.getElementById('iBotijao')
+    const gas = iBotijao ? iBotijao.querySelector('#botijaoSVG') : null
+
+    if (gas) {
+      let height: string = gas.getAttribute('height') ?? '0'
+      let y: string = gas.getAttribute('y') ?? '0'
+      const currentHeight = parseFloat(height)
+      const currentY = parseFloat(y)
+
+      let percentual = 1
+      if (dtoBotijao.value?.pesoMaximo && dtoBotijao.value?.pesoMinimo && pesoFinal) {
+        percentual =
+          (pesoFinal.value - dtoBotijao.value?.pesoMinimo) /
+          (dtoBotijao.value?.pesoMaximo - dtoBotijao.value?.pesoMinimo)
+      }
+
+      /*tentando usar os valore recebidos de acordo com otipo selecionado
+    
+    const tipoSelecionado = tipoBotijaoData.find((tipo) => tipo.id === dtoBotijao.tipoBotijao);
+
+    let percentual = 1;
+
+    if (tipoSelecionado.value) {
+      const pesoMinimo = parseFloat(tipoSelecionado.value.pesoMinimo?.$numberDecimal);
+      const pesoMaximo = parseFloat(tipoSelecionado.value.pesoMaximo?.$numberDecimal);
+
+      if (!isNaN(pesoMinimo) && !isNaN(pesoMaximo) && pesoFinal.value) {
+        percentual = (pesoFinal.value - pesoMinimo) / (pesoMaximo - pesoMinimo);
+      }
+    }*/
+
+      let tamanhoDiminuido = currentHeight - currentHeight * percentual
+      gas.setAttribute('height', (currentHeight * percentual).toString())
+      gas.setAttribute('y', (currentY + tamanhoDiminuido).toString())
+    }
+  }
+
+  onMounted(() => {
+    consome()
   })
-
-  const lineChartDataGenerated = useChartData(lineChartData, 0.7)
-
-  const simpleOptions = ref([
-    {
-      id: 1,
-      description: 'First option',
-    },
-    {
-      id: 2,
-      description: 'Second option',
-    },
-    {
-      id: 3,
-      description: 'Third option',
-    },
-  ])
 </script>
 
 <style lang="scss" scoped>

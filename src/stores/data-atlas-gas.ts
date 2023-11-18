@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { ref } from 'vue'
-// Importe a biblioteca regression-js
-import * as regression from 'regression'
 
 export interface IGelagua {
   _id?: string
@@ -17,6 +15,22 @@ export interface IGelagua {
 
 interface IGelaguaDocuments {
   documents: [IGelagua]
+}
+
+export interface IBotijao {
+  _id?: string
+  imagem: string
+  nome: string
+  descricao: string
+  identificadorBalanca: string
+  ativo: boolean
+  tipoBotijao: string
+  pesoMaximo: number
+  pesoMinimo: number
+}
+
+interface IBotijaoDocuments {
+  documents: [IBotijao]
 }
 
 export interface IidDevice {
@@ -69,69 +83,20 @@ export const listaGelaguas = defineStore('listaGelaguas', {
             backgroundColor: '#f87979',
             data: [65, 59, 80, 81, 56],
           },
-          {
-            label: 'Vendas',
-            backgroundColor: '#B9F7F0',
-            data: [65, 59, 80, 81, 56],
-          },
-          {
-            label: 'Vendas',
-            backgroundColor: '#B9F7F0',
-            data: [65, 59, 80, 81, 56],
-          },
         ],
       }
-      // Seus dados
-      const dataRegressao: number[][] = []
       if (gelagua?.identificadorBalanca) {
         await this.loadMedicoesList(gelagua?.identificadorBalanca)
         const medicoesDTO = this.medicoesDTO
         this.chartData.datasets[0].data.length = 0
-        this.chartData.datasets[1].data.length = 0
-        this.chartData.datasets[2].data.length = 0
-
         this.chartData.labels = []
-        this.chartData.datasets[0].label = 'Consumo'
-        this.chartData.datasets[1].label = 'Medições'
-        this.chartData.datasets[2].label = 'Previsão'
-        this.chartData.datasets[0].backgroundColor = '#FF5733'
-        this.chartData.datasets[1].backgroundColor = '#D6EAF8'
-        this.chartData.datasets[2].backgroundColor = '#08E037'
-
+        this.chartData.datasets[0].label = 'Medições'
         for (const medicao of medicoesDTO) {
-          const dateString = medicao.dateTime.toString()
-          const dateObject = new Date(dateString)
-          // Adicionando um novo elemento [x, y]
-          const novoElemento: number[] = [medicao.weight, dateObject.getTime()]
-          dataRegressao.push(novoElemento)
-          //this.chartData.labels?.push(dateObject.getTime().toString())
           this.chartData.labels?.push(medicao.dateTime.toString())
-          this.chartData.datasets[0].data.push(Number(gelagua.pesoMinimo) + (gelagua.pesoMaximo - medicao.weight))
-          this.chartData.datasets[1].data.push(medicao.weight)
-          this.chartData.datasets[2].data.push(medicao.weight)
+          this.chartData.datasets[0].data.push(medicao.weight)
           this.pesoFinal = medicao.weight
         }
-
-        // Loop do valor atual até o minimo
-
-        const inicio = this.pesoFinal
-        const fim = gelagua.pesoMinimo
-        const result = regression.linear(dataRegressao)
-
-        for (let i = inicio; i >= fim; i--) {
-          console.log(i)
-          // Ajustando o modelo de regressão linear
-          // Usando a função predict para prever o valor de y para um novo valor de x
-          const novoX = Number(i)
-          const finalTime = Math.floor(result.predict(novoX)[1])
-          const dataFinal = new Date()
-          dataFinal.setTime(finalTime)
-          this.chartData.labels?.push(dataFinal.toString())
-          this.chartData.datasets[2].data.push(novoX)
-          //this.chartData.datasets[0].data.push(novoX)
-
-          //lineChartDataGenerated = useChartData(lineChartData, 0.7)
-        }
+        //lineChartDataGenerated = useChartData(lineChartData, 0.7)
       }
     },
 
@@ -276,6 +241,195 @@ export const listaGelaguas = defineStore('listaGelaguas', {
         'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
       }
       const { data } = await axios.post<IGelagua[]>(
+        '/mongo/app/data-vcreo/endpoint/data/v1/action/deleteOne',
+        dataToPost,
+        {
+          headers: headers,
+        },
+      )
+    },
+  },
+})
+
+//Listagem do botijão começa aqui
+export const listaBotijao = defineStore('listaBotijao', {
+  state: () => ({
+    botijaoDTO: ref<IBotijao[]>([]),
+    botijaoCorrente: ref<IBotijao>(),
+    idDeviceList: ref<IidDevice[]>([]),
+    medicoesDTO: ref<IMedicoes[]>([]),
+    chartData: ref<ChartData>(),
+    pesoFinal: Number(0),
+  }),
+  actions: {
+    async carregarMedicoes(botijao: IBotijao) {
+      this.chartData = {
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+        datasets: [
+          {
+            label: 'Vendas',
+            backgroundColor: '#f87979',
+            data: [65, 59, 80, 81, 56],
+          },
+        ],
+      }
+      if (botijao?.identificadorBalanca) {
+        await this.loadMedicoesList(botijao?.identificadorBalanca)
+        const medicoesDTO = this.medicoesDTO
+        this.chartData.datasets[0].data.length = 0
+        this.chartData.labels = []
+        this.chartData.datasets[0].label = 'Medições'
+        for (const medicao of medicoesDTO) {
+          this.chartData.labels?.push(medicao.dateTime.toString())
+          this.chartData.datasets[0].data.push(medicao.weight)
+          this.pesoFinal = medicao.weight
+        }
+        //lineChartDataGenerated = useChartData(lineChartData, 0.7)
+      }
+    },
+
+    /**
+     * Obtem a listagem de devices de medições
+     */
+    async loadIDDevicesList() {
+      const dataToPost = {
+        collection: 'medicoes',
+        database: 'monitora',
+        dataSource: 'Cluster0',
+        pipeline: [
+          { $match: { weight: { $gte: 5 } } },
+          { $group: { _id: '$deviceID', totalContabilizado: { $sum: 1 } } },
+          { $sort: { _id: -1 } },
+        ],
+      }
+      const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Headers': '*',
+        'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
+      }
+
+      // Realize a solicitação POST com o Axios
+      const { data } = await axios.post<IidDeviceDocuments>(
+        '/mongo/app/data-vcreo/endpoint/data/v1/action/aggregate',
+        dataToPost,
+        {
+          headers: headers,
+        },
+      )
+
+      this.idDeviceList = data.documents
+    },
+    /**
+     * Obtem a listagem de botijao
+     */
+    async loadBotijaoList() {
+      const dataToPost = {
+        collection: 'botijao',
+        database: 'monitora',
+        dataSource: 'Cluster0',
+        filter: {},
+      }
+      const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Headers': '*',
+        'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
+      }
+
+      // Realize a solicitação POST com o Axios
+      const { data } = await axios.post<IBotijaoDocuments>(
+        '/mongo/app/data-vcreo/endpoint/data/v1/action/find',
+        dataToPost,
+        {
+          headers: headers,
+        },
+      )
+      this.botijaoDTO = data.documents
+    },
+    /**
+     * Obtem as medicoes de um device de medição
+     * @param pdeviceID
+     */
+    async loadMedicoesList(pdeviceID: string) {
+      const dataToPost = {
+        collection: 'medicoes',
+        database: 'monitora',
+        dataSource: 'Cluster0',
+        filter: { deviceID: pdeviceID },
+      }
+      const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Headers': '*',
+        'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
+      }
+
+      // Realize a solicitação POST com o Axios
+      const { data } = await axios.post<IMedicoesDocuments>(
+        '/mongo/app/data-vcreo/endpoint/data/v1/action/find',
+        dataToPost,
+        {
+          headers: headers,
+        },
+      )
+      this.medicoesDTO = data.documents
+    },
+    async novoBotijao() {
+      const novoBotijaoDTO: IBotijao = {
+        _id: '',
+        nome: '',
+        imagem: 'https://picsum.photos/200/300?random=4',
+        descricao: '',
+        identificadorBalanca: '',
+        ativo: true,
+        tipoBotijao: '',
+        pesoMaximo: 0,
+        pesoMinimo: 0,
+      }
+      this.botijaoCorrente = novoBotijaoDTO
+    },
+    async setBotijaoCorrente(botijao: IBotijao) {
+      this.botijaoCorrente = botijao
+    },
+    async salvarBotijao(botijao: IBotijao) {
+      const dataToPost = {
+        collection: 'botijao',
+        database: 'monitora',
+        dataSource: 'Cluster0',
+        document: {},
+      }
+      this.botijaoCorrente = botijao
+      const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Headers': '*',
+        'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
+      }
+
+      delete botijao._id
+      dataToPost.document = botijao
+
+      // Realize a solicitação POST com o Axios
+      const { data } = await axios.post<IBotijao[]>(
+        '/mongo/app/data-vcreo/endpoint/data/v1/action/insertOne',
+        dataToPost,
+        {
+          headers: headers,
+        },
+      )
+    },
+    async excluirBotijao(idBotijao: string) {
+      const dataToPost = {
+        collection: 'botijao',
+        database: 'monitora',
+        dataSource: 'Cluster0',
+        filter: {
+          _id: { $oid: idBotijao },
+        },
+      }
+      const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Request-Headers': '*',
+        'api-key': 'syGEl7ZdHnF6xem4Rn0GVtpHpm1ahFKyuxCffCyv9NpfqkvbrC7bgiyfRFbZKbbB',
+      }
+      const { data } = await axios.post<IBotijao[]>(
         '/mongo/app/data-vcreo/endpoint/data/v1/action/deleteOne',
         dataToPost,
         {
