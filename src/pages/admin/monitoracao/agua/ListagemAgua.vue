@@ -26,7 +26,7 @@
         <va-card class="col-span-12 sm:col-span-6 md:col-span-3" stripe stripe-color="info">
           <va-card-title>
             <va-avatar>
-              <img :src="gelagua.imagem" :alt="gelagua.nome" />
+              <img src="../../../../../public/8d1435f7b7221be5ac9e63bdb8dad64c.webp" :alt="gelagua.nome" />
             </va-avatar>
             <va-spacer />
             {{ gelagua.nome }}
