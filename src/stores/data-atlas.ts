@@ -58,6 +58,7 @@ export const listaGelaguas = defineStore('listaGelaguas', {
     medicoesDTO: ref<IMedicoes[]>([]),
     chartData: ref<ChartData>(),
     pesoFinal: Number(0),
+    dataFinal: String(''),
   }),
   actions: {
     async carregarMedicoes(gelagua: IGelagua) {
@@ -83,6 +84,14 @@ export const listaGelaguas = defineStore('listaGelaguas', {
       }
       // Seus dados
       const dataRegressao: number[][] = []
+      const options: Intl.DateTimeFormatOptions = {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+      }
       if (gelagua?.identificadorBalanca) {
         await this.loadMedicoesList(gelagua?.identificadorBalanca)
         const medicoesDTO = this.medicoesDTO
@@ -104,8 +113,9 @@ export const listaGelaguas = defineStore('listaGelaguas', {
           // Adicionando um novo elemento [x, y]
           const novoElemento: number[] = [medicao.weight, dateObject.getTime()]
           dataRegressao.push(novoElemento)
-          //this.chartData.labels?.push(dateObject.getTime().toString())
-          this.chartData.labels?.push(medicao.dateTime.toString())
+          this.chartData.labels?.push(dateObject.toLocaleDateString('pt-BR', options))
+          //const dataFormatada = dataFinal.toLocaleDateString('pt-BR', options)
+          //this.chartData.labels?.push(medicao.dateTime.toLocaleDateString('pt-BR', options))
           this.chartData.datasets[0].data.push(Number(gelagua.pesoMinimo) + (gelagua.pesoMaximo - medicao.weight))
           this.chartData.datasets[1].data.push(medicao.weight)
           this.chartData.datasets[2].data.push(medicao.weight)
@@ -126,8 +136,10 @@ export const listaGelaguas = defineStore('listaGelaguas', {
           const finalTime = Math.floor(result.predict(novoX)[1])
           const dataFinal = new Date()
           dataFinal.setTime(finalTime)
-          this.chartData.labels?.push(dataFinal.toString())
+          const dataFormatada = dataFinal.toLocaleDateString('pt-BR', options)
+          this.chartData.labels?.push(dataFormatada)
           this.chartData.datasets[2].data.push(novoX)
+          this.dataFinal = dataFormatada
           //this.chartData.datasets[0].data.push(novoX)
 
           //lineChartDataGenerated = useChartData(lineChartData, 0.7)
