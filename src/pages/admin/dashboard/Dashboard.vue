@@ -2,12 +2,12 @@
   <div class="dashboard">
     <dashboard-charts />
 
+    <!-- 
     <dashboard-info-block />
-
-    <div class="grid grid-cols-12 gap-6">
+      <div class="grid grid-cols-12 gap-6">
       <dashboard-tabs class="col-span-12 lg:col-span-6" @submit="addAddressToMap" />
 
-      <dashboard-map ref="dashboardMap" class="col-span-12 lg:col-span-6" />
+     <dashboard-map ref="dashboardMap" class="col-span-12 lg:col-span-6" />
     </div>
     <div class="flex justify-center mt-2">
       <va-button
@@ -19,7 +19,7 @@
       >
         Privacy Policy
       </va-button>
-    </div>
+    </div>-->
   </div>
 </template>
 

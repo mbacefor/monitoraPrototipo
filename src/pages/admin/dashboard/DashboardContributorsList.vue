@@ -1,21 +1,19 @@
 <template>
   <va-card class="flex dashboard-contributors-list">
     <va-card-title>
-      <h1>{{ t('dashboard.charts.topContributors') }}</h1>
-      <div class="mr-0 va-text-right">
-        <a class="mr-0 va-link" :disabled="contributors.length <= step" @click="showNext">
-          {{ t('dashboard.charts.showNextFive') }}
-        </a>
-      </div>
+      <h1>Medições</h1>
     </va-card-title>
 
     <va-card-content>
       <va-inner-loading :loading="loading" style="width: 100%">
-        <div v-for="(contributor, idx) in visibleList" :key="idx" class="mb-4">
-          <va-progress-bar :model-value="getPercent(contributor.contributions)" :color="getProgressBarColor(idx)">
-            {{ contributor.contributions }} {{ t('dashboard.charts.commits') }}
+        <div v-for="device in idDeviceList" :key="device._id" class="mb-4">
+          <va-progress-bar
+            :model-value="getPercent(Number(device.totalContabilizado))"
+            :color="getProgressBarColor(device._id)"
+          >
+            {{ device.totalContabilizado }} Medições
           </va-progress-bar>
-          <p class="mt-2">{{ contributor.login }}</p>
+          <p class="mt-2">{{ device._id }}</p>
         </div>
       </va-inner-loading>
     </va-card-content>
@@ -23,9 +21,14 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue'
+  import { onMounted, ref, computed } from 'vue'
   import { useI18n } from 'vue-i18n'
   import axios from 'axios'
+  import { listaGelaguas } from '../../../stores/data-atlas'
+
+  const store = listaGelaguas()
+  const idDeviceList = computed(() => store.idDeviceList)
+  const chartDataPizza = computed(() => store.chartDataPizza)
 
   const { t } = useI18n()
 

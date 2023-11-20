@@ -41,7 +41,7 @@ interface IMedicoesDocuments {
 
 interface ChartDataset {
   label: string
-  backgroundColor: string
+  backgroundColor: string[]
   data: number[]
 }
 
@@ -57,6 +57,7 @@ export const listaGelaguas = defineStore('listaGelaguas', {
     idDeviceList: ref<IidDevice[]>([]),
     medicoesDTO: ref<IMedicoes[]>([]),
     chartData: ref<ChartData>(),
+    chartDataPizza: ref<ChartData>(),
     pesoFinal: Number(0),
     dataFinal: String(''),
   }),
@@ -67,17 +68,17 @@ export const listaGelaguas = defineStore('listaGelaguas', {
         datasets: [
           {
             label: 'Vendas',
-            backgroundColor: '#f87979',
+            backgroundColor: ['#f87979'],
             data: [65, 59, 80, 81, 56],
           },
           {
             label: 'Vendas',
-            backgroundColor: '#B9F7F0',
+            backgroundColor: ['#B9F7F0'],
             data: [65, 59, 80, 81, 56],
           },
           {
             label: 'Vendas',
-            backgroundColor: '#B9F7F0',
+            backgroundColor: ['#B9F7F0'],
             data: [65, 59, 80, 81, 56],
           },
         ],
@@ -103,9 +104,9 @@ export const listaGelaguas = defineStore('listaGelaguas', {
         this.chartData.datasets[0].label = 'Consumo'
         this.chartData.datasets[1].label = 'Medições'
         this.chartData.datasets[2].label = 'Previsão'
-        this.chartData.datasets[0].backgroundColor = '#FF5733'
-        this.chartData.datasets[1].backgroundColor = '#D6EAF8'
-        this.chartData.datasets[2].backgroundColor = '#08E037'
+        this.chartData.datasets[0].backgroundColor = ['#FF5733']
+        this.chartData.datasets[1].backgroundColor = ['#D6EAF8']
+        this.chartData.datasets[2].backgroundColor = ['#08E037']
 
         for (const medicao of medicoesDTO) {
           const dateString = medicao.dateTime.toString()
@@ -156,7 +157,7 @@ export const listaGelaguas = defineStore('listaGelaguas', {
         database: 'monitora',
         dataSource: 'Cluster0',
         pipeline: [
-          { $match: { weight: { $gte: 5 } } },
+          { $match: { weight: { $gte: 0 } } },
           { $group: { _id: '$deviceID', totalContabilizado: { $sum: 1 } } },
           { $sort: { _id: -1 } },
         ],
@@ -177,6 +178,27 @@ export const listaGelaguas = defineStore('listaGelaguas', {
       )
 
       this.idDeviceList = data.documents
+
+      this.chartDataPizza = {
+        labels: ['North America', 'South America', 'Australia'],
+        datasets: [
+          {
+            label: 'Balanças com Medições',
+            backgroundColor: ['#FF5733', '#D6EAF8', '#08E037'],
+            data: [2478, 5267, 734],
+          },
+        ],
+      }
+
+      this.chartDataPizza.datasets[0].data.length = 0
+      this.chartDataPizza.labels.length = 0
+      //this.chartDataPizza.datasets[0].backgroundColor.length = 0
+
+      for (const deviceID of this.idDeviceList) {
+        this.chartDataPizza.labels?.push(deviceID._id)
+        this.chartDataPizza.datasets[0].data.push(Number(deviceID.totalContabilizado))
+        //this.chartDataPizza.datasets[0].backgroundColor.push('#FF5733')
+      }
     },
     /**
      * Obtem a liatagem de gelaguas

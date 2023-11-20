@@ -1,6 +1,6 @@
 <template>
-  <div class="grid grid-cols-12 gap-6">
-    <va-card v-if="lineChartDataGenerated" class="col-span-12 lg:col-span-6">
+  <div class="grid grid-cols-6 gap-6">
+    <!-- <va-card v-if="lineChartDataGenerated" class="col-span-12 lg:col-span-6">
       <va-card-title>
         <h1>{{ t('dashboard.charts.trendyTrends') }}</h1>
         <div>
@@ -27,15 +27,11 @@
       <va-card-content>
         <va-chart class="chart" :data="lineChartDataGenerated" type="line" />
       </va-card-content>
-    </va-card>
+    </va-card>-->
 
     <va-card class="col-span-12 sm:col-span-6 lg:col-span-3">
-      <va-card-title>
-        <h1>{{ t('dashboard.charts.loadingSpeed') }}</h1>
-        <va-button icon="print" plain @click="printChart" />
-      </va-card-title>
-      <va-card-content v-if="doughnutChartDataGenerated">
-        <va-chart ref="doughnutChart" class="chart chart--donut" :data="doughnutChartDataGenerated" type="doughnut" />
+      <va-card-content v-if="chartDataPizza">
+        <va-chart class="chart chart--donut" :data="chartDataPizza" type="doughnut" />
       </va-card-content>
     </va-card>
 
@@ -44,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import { useI18n } from 'vue-i18n'
 
   import { doughnutChartData, lineChartData } from '../../../data/charts'
@@ -52,6 +48,11 @@
   import { usePartOfChartData } from './composables/usePartOfChartData'
   import VaChart from '../../../components/va-charts/VaChart.vue'
   import DashboardContributorsChart from './DashboardContributorsList.vue'
+  import { listaGelaguas } from '../../../stores/data-atlas'
+
+  const store = listaGelaguas()
+  store.loadIDDevicesList()
+  const chartDataPizza = computed(() => store.chartDataPizza)
 
   const { t } = useI18n()
 

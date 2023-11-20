@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-6 grid grid-cols-12 gap-6">
+  <div class="pt-6 grid grid-cols-6 gap-6">
     <div class="col-span-12 lg:col-span-6 flex flex-wrap">
       <div class="w-full pb-6 grid grid-cols-12 gap-6">
         <va-card v-for="(info, idx) in infoTiles" :key="idx" class="col-span-12 sm:col-span-4 mb-8" :color="info.color">
@@ -10,6 +10,7 @@
         </va-card>
       </div>
 
+      <!--
       <div class="w-full grid grid-cols-12 gap-6">
         <va-card class="col-span-12 sm:col-span-6">
           <va-card-content class="h-full flex flex-col justify-center">
@@ -34,8 +35,9 @@
           </va-card-content>
         </va-card>
       </div>
+      -->
     </div>
-
+    <!--
     <div class="flex col-span-12 sm:col-span-6 lg:col-span-3">
       <va-card stripe stripe-color="info">
         <va-card-title>
@@ -55,6 +57,7 @@
       </va-card>
     </div>
 
+    
     <va-card class="col-span-12 sm:col-span-6 lg:col-span-3">
       <va-image :src="images[currentImageIndex]" style="height: 200px" />
       <va-card-title>
@@ -67,6 +70,7 @@
     <va-modal v-model="modal">
       <va-carousel v-model="currentImageIndex" :items="images" class="gallery-carousel" />
     </va-modal>
+    -->
   </div>
 </template>
 
