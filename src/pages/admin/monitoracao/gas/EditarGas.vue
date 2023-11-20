@@ -7,7 +7,7 @@
           <va-button preset="primary" text-color="#1E3A8A" class="mr-6 mb-1" to="listagem">
             <i class="fas fa-arrow-left"></i> Voltar
           </va-button>
-          <va-button preset="primary" text-color="#1E3A8A" class="mr-6 mb-3" to="Listagem" @click="salvarNovoBotijao">
+          <va-button preset="primary" text-color="#1E3A8A" class="mr-6 mb-3" @click="validate() && salvarNovoBotijao()">
             <i class="fas fa-save"></i> Salvar
           </va-button>
         </va-card-content>
@@ -25,13 +25,18 @@
                   id="identificadorBotijao"
                   v-model="dtoBotijao._id"
                   class="bg-gray-100 cursor-not-allowed text-gray-500"
-                  placeholder="Identificador"
+                  placeholder="Identificador automático"
                   readonly
                 />
               </div>
               <div class="col-span-12 sm:col-span-8 md:col-span-4 md:col-start-1">
                 <label for="nomeBotijao" class="text-lg font-bold text-blue-900">Nome</label>
-                <va-input id="nomeBotijao" v-model="dtoBotijao.nome" placeholder="Nome do Botijão" />
+                <va-input
+                  id="nomeBotijao"
+                  v-model="dtoBotijao.nome"
+                  placeholder="Nome do Botijão"
+                  :rules="[(value) => (value && value.length > 5) || 'Campo obrigatório*']"
+                />
               </div>
               <div class="col-span-12 sm:col-span-8 md:col-span-4">
                 <label for="nomeBotijao" class="text-lg font-bold text-blue-900">Identificador Balança</label>
@@ -42,6 +47,7 @@
                   track-by="_id"
                   value-by="_id"
                   :options="dtoListaDeviceID"
+                  :rules="[(v) => v || 'Campo obrigatório*']"
                 />
               </div>
               <div class="col-span-12 md:col-span-2 md:col-start-10">
@@ -57,24 +63,31 @@
                   v-model="dtoBotijao.descricao"
                   type="textarea"
                   placeholder="Campo livre para descrição do botijão"
+                  :rules="[(value) => (value && value.length > 5) || 'Campo obrigatório*']"
                 />
               </div>
               <div class="col-span-12 sm:col-span-6 md:col-span-4">
                 <label for="tipoBotijao" class="text-lg font-bold text-blue-900">Tipo de Botijão</label>
-                <select id="tipoBotijao" v-model="dtoBotijao.tipoBotijao" class="w-full p-2 bg-blue-100 rounded">
+                <select
+                  id="tipoBotijao"
+                  v-model="dtoBotijao.tipoBotijao"
+                  class="w-full p-2 bg-blue-100 rounded required"
+                  required
+                >
                   <option value="">Selecione o tipo de botijão</option>
                   <option v-for="tipo in tipoBotijaoData" :key="tipo.id" :value="tipo.id">{{ tipo.nome }}</option>
                 </select>
               </div>
 
               <div v-if="true" class="col-span-12 sm:col-span-6 md:col-span-4">
-                <label for="pesoMinimo" class="text-lg font-bold text-blue-900">Peso Minimo</label>
+                <label for="pesoMinimo" class="text-lg font-bold text-blue-900">Peso Mínimo</label>
                 <va-input
                   id="pesoMinimo"
                   v-model="dtoBotijao.pesoMinimo"
                   class="bg-gray-100 cursor-not-allowed text-gray-500"
                   type="number"
                   readonly
+                  :rules="[(v) => validateNumero(v)]"
                 />
               </div>
               <div v-if="true" class="col-span-12 sm:col-span-6 md:col-span-4">
@@ -85,6 +98,7 @@
                   class="bg-gray-100 cursor-not-allowed text-gray-500"
                   type="number"
                   readonly
+                  :rules="[(v) => validateNumero(v)]"
                 />
               </div>
             </div>
@@ -143,12 +157,20 @@
     if (validate()) {
       await store.salvarBotijao(dtoBotijao.value)
       router.push({ name: 'gas' })
-      const color = colors.info
-      initToast({ message: 'Novo botijão criado!', color })
+      const color = colors.backgroundElement
+      console.log('Campos válidos. Salvando...')
+      initToast({ message: 'Novo botijão criado.', color })
     } else {
-      const color = colors.danger
-      initToast({ message: 'Novo botijão criado!', color })
+      const color = colors.backgroundElement
+      initToast({ message: 'Novo gelágua criado.', color })
     }
+  }
+
+  const validateNumero = (value: string | null) => {
+    if (!value) {
+      return 'Campo obrigatório. Selecione um tipo de Botijão.'
+    }
+    return Number(value) >= 0 || 'Deve ser mairo que ZERO!'
   }
 </script>
 

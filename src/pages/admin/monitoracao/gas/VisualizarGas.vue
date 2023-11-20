@@ -139,16 +139,6 @@
                 readonly
               />
             </div>
-            <div v-if="true" class="col-span-12 sm:col-span-6 md:col-span-4">
-              <label for="pesoAtual" class="text-lg font-bold text-blue-900">Peso Atual</label>
-              <va-input
-                id="pesoMaximo"
-                v-model="pesoFinal"
-                class="bg-gray-100 cursor-not-allowed text-gray-500"
-                type="number"
-                readonly
-              />
-            </div>
           </div>
         </form>
       </va-card-content>
@@ -209,19 +199,19 @@
       }
 
       /*tentando usar os valore recebidos de acordo com otipo selecionado
-    
-    const tipoSelecionado = tipoBotijaoData.find((tipo) => tipo.id === dtoBotijao.tipoBotijao);
+  
+  const tipoSelecionado = tipoBotijaoData.find((tipo) => tipo.id === dtoBotijao.tipoBotijao);
 
-    let percentual = 1;
+  let percentual = 1;
 
-    if (tipoSelecionado.value) {
-      const pesoMinimo = parseFloat(tipoSelecionado.value.pesoMinimo?.$numberDecimal);
-      const pesoMaximo = parseFloat(tipoSelecionado.value.pesoMaximo?.$numberDecimal);
+  if (tipoSelecionado.value) {
+    const pesoMinimo = parseFloat(tipoSelecionado.value.pesoMinimo?.$numberDecimal);
+    const pesoMaximo = parseFloat(tipoSelecionado.value.pesoMaximo?.$numberDecimal);
 
-      if (!isNaN(pesoMinimo) && !isNaN(pesoMaximo) && pesoFinal.value) {
-        percentual = (pesoFinal.value - pesoMinimo) / (pesoMaximo - pesoMinimo);
-      }
-    }*/
+    if (!isNaN(pesoMinimo) && !isNaN(pesoMaximo) && pesoFinal.value) {
+      percentual = (pesoFinal.value - pesoMinimo) / (pesoMaximo - pesoMinimo);
+    }
+  }*/
 
       let tamanhoDiminuido = currentHeight - currentHeight * percentual
       gas.setAttribute('height', (currentHeight * percentual).toString())
