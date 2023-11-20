@@ -70,6 +70,8 @@ O sistema contém as seguintes funcionalidades:
 
 ## **6. Arquitetura**
 
+![Diagrama sem nome drawio](https://github.com/mbacefor/monitora/assets/18383116/c48e6d50-602d-4dae-bde0-369c3d4f37c4)
+
 ## 7. Configuração Ambiente
 
 ### 7.1 Ambiente de desenvolvimento
